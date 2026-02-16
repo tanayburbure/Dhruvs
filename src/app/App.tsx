@@ -1,4 +1,4 @@
-import LoginPage from "../features/auth/pages/loginpage"
+import LoginPage from "../features/auth/pages/LoginPage"
 
 function App() {
 

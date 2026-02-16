@@ -48,6 +48,32 @@ export default function Sidebar() {
         >
           Customers
         </NavLink>
+
+        <NavLink
+          to="/limits"
+          className={({ isActive }) =>
+            `${linkClass} ${
+              isActive
+                ? "bg-yellow-400 text-white"
+                : "text-gray-700 hover:bg-gray-100"
+            }`
+          }
+        >
+          Limits
+        </NavLink>
+
+        <NavLink
+          to="/employees"
+          className={({ isActive }) =>
+            `${linkClass} ${
+              isActive
+                ? "bg-yellow-400 text-white"
+                : "text-gray-700 hover:bg-gray-100"
+            }`
+          }
+        >
+          employees
+        </NavLink>
       </nav>
     </div>
   );
