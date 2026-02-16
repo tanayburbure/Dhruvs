@@ -2,7 +2,7 @@ import { Outlet } from "react-router-dom";
 import Sidebar from "@/shared/components/Sidebar";
 import Header from "@/shared/components/Header";
 
-export default function DashboardLayout() {
+export default function AdminLayout() {
   return (
     <div className="flex h-screen bg-gray-100">
       <Sidebar />
