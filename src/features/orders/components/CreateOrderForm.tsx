@@ -1,9 +1,12 @@
+import { useState } from "react";
 import { useForm, FormProvider, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { orderSchema, OrderFormValues } from "../schemas/order.schema";
 import CustomerDetailsSection from "./CustomerDetailsSection";
 import GarmentSection from "./GarmentSection";
 import FabricSection from "./FabricSection";
+import SpecialInstructionsModal from "./SpecialInstructionsModal";
+import DeliveryDatePicker from "./DeliveryDatePicker";
 
 const CreateOrderForm = () => {
   const methods = useForm<OrderFormValues>({
@@ -38,6 +41,9 @@ const CreateOrderForm = () => {
     console.log("Final Order Data:", data);
   };
 
+  const [isInstructionOpen, setIsInstructionOpen] = useState(false);
+
+
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
@@ -47,6 +53,36 @@ const CreateOrderForm = () => {
         <GarmentSection fieldArray={garmentFieldArray} />
 
         <FabricSection fieldArray={fabricFieldArray} />
+        <div className="flex gap-6 items-center">
+
+          {/* Special Instructions */}
+          <div>
+            <label className="block text-sm font-medium mb-1">
+              Special Instructions
+            </label>
+            <button
+              type="button"
+              onClick={() => setIsInstructionOpen(true)}
+              className="px-4 py-2 border rounded-lg"
+            >
+              Add Instructions
+            </button>
+          </div>
+
+          {/* Delivery Date */}
+          <div>
+            <label className="block text-sm font-medium mb-1">
+              Delivery Date
+            </label>
+            <DeliveryDatePicker />
+          </div>
+
+        </div>
+
+        <SpecialInstructionsModal
+          isOpen={isInstructionOpen}
+          onClose={() => setIsInstructionOpen(false)}
+        />
 
         <button
           type="submit"
