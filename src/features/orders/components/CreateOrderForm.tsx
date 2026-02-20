@@ -14,6 +14,7 @@ import {
 } from "./utils/calculateTotals";
 import MeasurementsSection from "./MeasurementsSection";
 import AddPicturesPage from "../pages/AddPicturesPage";
+import FinalOrderSummary from "../pages/FinalReviewPage";
 
 
 const CreateOrderForm = () => {
@@ -120,6 +121,7 @@ const CreateOrderForm = () => {
         </div>
         <MeasurementsSection />
         <AddPicturesPage/>
+        <FinalOrderSummary/>
 
         <button
           type="submit"

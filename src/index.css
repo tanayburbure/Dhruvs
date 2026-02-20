@@ -14,3 +14,21 @@
   .animate-scaleIn {
     animation: scaleIn 0.2s ease-out;
   }
+
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+  
+    #final-summary,
+    #final-summary * {
+      visibility: visible;
+    }
+  
+    #final-summary {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+    }
+  }

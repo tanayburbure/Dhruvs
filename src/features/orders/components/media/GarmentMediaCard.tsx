@@ -1,4 +1,4 @@
-import { Camera, Brush, Image } from "lucide-react";
+// Use inline SVG icons to fix the "Cannot find module 'lucide-react'" error.
 
 type Props = {
   customerName: string;
@@ -9,6 +9,30 @@ type Props = {
   onAddDrawing: () => void;
   onViewImages: () => void;
 };
+
+// Inline SVGs for icons
+const CameraIcon = ({ size = 20 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <rect x="3" y="7" width="18" height="13" rx="2" stroke="currentColor" strokeWidth="2" />
+    <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" stroke="currentColor" strokeWidth="2" />
+    <circle cx="12" cy="14" r="3" stroke="currentColor" strokeWidth="2" />
+  </svg>
+);
+
+const BrushIcon = ({ size = 20 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <path d="M19 15V4a2 2 0 0 0-2-2H7A2 2 0 0 0 5 4v11a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2Z" stroke="currentColor" strokeWidth="2" />
+    <path d="M9 18l6 3-6 3v-6Z" stroke="currentColor" strokeWidth="2" />
+  </svg>
+);
+
+const ImageIcon = ({ size = 20 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
+    <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2" />
+    <circle cx="8.5" cy="8.5" r="1.5" stroke="currentColor" strokeWidth="2" />
+    <path d="M21 21l-6-6a2 2 0 0 0-2.828 0l-7 7" stroke="currentColor" strokeWidth="2" />
+  </svg>
+);
 
 const GarmentMediaCard = ({
   customerName,
@@ -36,7 +60,7 @@ const GarmentMediaCard = ({
         className="flex justify-between items-center cursor-pointer hover:bg-gray-50 p-2 rounded-lg"
       >
         <span>Add Fabric Picture</span>
-        <Camera size={20} />
+        <CameraIcon size={20} />
       </div>
 
       <hr />
@@ -46,7 +70,7 @@ const GarmentMediaCard = ({
         className="flex justify-between items-center cursor-pointer hover:bg-gray-50 p-2 rounded-lg"
       >
         <span>Add Drawing</span>
-        <Brush size={20} />
+        <BrushIcon size={20} />
       </div>
 
       <hr />
@@ -56,7 +80,7 @@ const GarmentMediaCard = ({
         className="flex justify-between items-center cursor-pointer hover:bg-gray-50 p-2 rounded-lg"
       >
         <span>View/Edit Images</span>
-        <Image size={20} />
+        <ImageIcon size={20} />
       </div>
 
     </div>
