@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useForm, FormProvider, useFieldArray } from "react-hook-form";
+import { useForm, FormProvider, useFieldArray, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { orderSchema, OrderFormValues } from "../schemas/order.schema";
 import CustomerDetailsSection from "./CustomerDetailsSection";
@@ -7,6 +7,12 @@ import GarmentSection from "./GarmentSection";
 import FabricSection from "./FabricSection";
 import SpecialInstructionsModal from "./SpecialInstructionsModal";
 import DeliveryDatePicker from "./DeliveryDatePicker";
+import OrderSummary from "./OrderSummary";
+import PaymentPanel from "./PaymentPanel";
+import {
+  calculateGarmentTotal,
+  calculateFabricTotal,
+} from "./utils/calculateTotals";
 
 const CreateOrderForm = () => {
   const methods = useForm<OrderFormValues>({
@@ -42,6 +48,13 @@ const CreateOrderForm = () => {
   };
 
   const [isInstructionOpen, setIsInstructionOpen] = useState(false);
+
+  // Calculate total from garments and fabrics
+  const garments = useWatch({ control, name: "garments" }) || [];
+  const fabrics = useWatch({ control, name: "fabrics" }) || [];
+  const garmentTotal = calculateGarmentTotal(garments);
+  const fabricTotal = calculateFabricTotal(fabrics);
+  const calculatedTotal = garmentTotal + fabricTotal;
 
 
   return (
@@ -83,6 +96,10 @@ const CreateOrderForm = () => {
           isOpen={isInstructionOpen}
           onClose={() => setIsInstructionOpen(false)}
         />
+        <div>
+          <OrderSummary />
+          <PaymentPanel total={calculatedTotal} />
+        </div>
 
         <button
           type="submit"
