@@ -1,52 +1,86 @@
 import { useState } from "react";
 
-const PaymentPanel = ({ total }: { total: number }) => {
-  const [amountPaid, setAmountPaid] = useState(0);
+interface PaymentPanelProps {
+  total: number;
+  onClose: () => void;
+}
+
+const PaymentPanel = ({ total, onClose }: PaymentPanelProps) => {
+  const [amountPaid, setAmountPaid] = useState<number>(0);
   const [mode, setMode] = useState<"cash" | "upi" | null>(null);
 
   const balance = total - amountPaid;
 
+  const handleSave = () => {
+    console.log({
+      amountPaid,
+      mode,
+      balance,
+    });
+
+    onClose();
+  };
+
   return (
-    <div className="bg-white p-6 rounded-xl shadow-md w-80 space-y-4">
+    <div className="space-y-5">
 
-      <h3 className="font-semibold text-lg">Record Payment</h3>
+      <h2 className="text-xl font-semibold">Record Payment</h2>
 
-      <input
-        type="number"
-        value={amountPaid}
-        onChange={(e) => setAmountPaid(Number(e.target.value))}
-        className="border rounded-md p-2 w-full"
-        placeholder="Amount Paid"
-      />
-
-      <div className="flex gap-3">
-        <button
-          onClick={() => setMode("cash")}
-          className={`flex-1 p-2 rounded-md border ${
-            mode === "cash" ? "bg-blue-100 border-blue-500" : ""
-          }`}
-        >
-          Cash
-        </button>
-
-        <button
-          onClick={() => setMode("upi")}
-          className={`flex-1 p-2 rounded-md border ${
-            mode === "upi" ? "bg-blue-100 border-blue-500" : ""
-          }`}
-        >
-          UPI
-        </button>
+      <div>
+        <label className="text-sm text-gray-500">Amount Paid (₹)</label>
+        <input
+          type="number"
+          value={amountPaid}
+          onChange={(e) => setAmountPaid(Number(e.target.value))}
+          className="w-full mt-1 border rounded-md p-2"
+        />
       </div>
 
-      <div className="text-right text-sm text-gray-600">
+      <div>
+        <label className="text-sm text-gray-500">Payment Mode</label>
+        <div className="flex gap-3 mt-2">
+          <button
+            type="button"
+            onClick={() => setMode("cash")}
+            className={`flex-1 border p-2 rounded-md ${
+              mode === "cash" ? "bg-blue-100 border-blue-500" : ""
+            }`}
+          >
+            Cash
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setMode("upi")}
+            className={`flex-1 border p-2 rounded-md ${
+              mode === "upi" ? "bg-blue-100 border-blue-500" : ""
+            }`}
+          >
+            UPI
+          </button>
+        </div>
+      </div>
+
+      <div className="text-sm text-right space-y-1 text-gray-600">
         <p>Total: ₹ {total}</p>
         <p>Balance: ₹ {balance}</p>
       </div>
 
-      <button className="w-full bg-blue-600 text-white p-2 rounded-md">
-        Save Payment
-      </button>
+      <div className="flex gap-3 pt-3">
+        <button
+          onClick={onClose}
+          className="flex-1 border rounded-md p-2"
+        >
+          Cancel
+        </button>
+
+        <button
+          onClick={handleSave}
+          className="flex-1 bg-blue-600 text-white rounded-md p-2"
+        >
+          Save Payment
+        </button>
+      </div>
     </div>
   );
 };

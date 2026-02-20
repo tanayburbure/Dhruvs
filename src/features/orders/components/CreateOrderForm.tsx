@@ -8,11 +8,13 @@ import FabricSection from "./FabricSection";
 import SpecialInstructionsModal from "./SpecialInstructionsModal";
 import DeliveryDatePicker from "./DeliveryDatePicker";
 import OrderSummary from "./OrderSummary";
-import PaymentPanel from "./PaymentPanel";
 import {
   calculateGarmentTotal,
   calculateFabricTotal,
 } from "./utils/calculateTotals";
+import MeasurementsSection from "./MeasurementsSection";
+import AddPicturesPage from "../pages/AddPicturesPage";
+
 
 const CreateOrderForm = () => {
   const methods = useForm<OrderFormValues>({
@@ -25,6 +27,23 @@ const CreateOrderForm = () => {
       state: "",
       garments: [],
       fabrics: [],
+      measurements: {
+        shoulder: undefined,
+        sleeveLength: undefined,
+        chest: undefined,
+        stomach: undefined,
+        neck: undefined,
+        frontShoulder: undefined,
+        backShoulder: undefined,
+        length: undefined,
+        waist: undefined,
+        hip: undefined,
+        front: undefined,
+        thigh: undefined,
+        knee: undefined,
+        legOpening: undefined,
+        bottom: undefined,
+      },
     },
   });
 
@@ -98,8 +117,9 @@ const CreateOrderForm = () => {
         />
         <div>
           <OrderSummary />
-          <PaymentPanel total={calculatedTotal} />
         </div>
+        <MeasurementsSection />
+        <AddPicturesPage/>
 
         <button
           type="submit"

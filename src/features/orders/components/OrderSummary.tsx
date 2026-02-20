@@ -3,6 +3,7 @@ import {
   calculateGarmentTotal,
   calculateFabricTotal,
 } from "./utils/calculateTotals";
+import PaymentModal from "./PaymentModal";
 
 const OrderSummary = () => {
   const { control } = useFormContext();
@@ -70,7 +71,11 @@ const OrderSummary = () => {
           Grand Total: ₹ {grandTotal}
         </p>
       </div>
+      <div className="pt-6 text-right">
+        <PaymentModal total={grandTotal} />
+      </div>
     </div>
+
   );
 };
 
