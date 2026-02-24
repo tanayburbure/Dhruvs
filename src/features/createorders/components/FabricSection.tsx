@@ -6,9 +6,33 @@ interface Props {
   fieldArray: any;
 }
 
-const garmentOptions = ["Shirt", "Pant", "Blazer"];
-const fabricOptions = ["Khadi", "Cotton", "Linen", "Silk"];
-const quantityOptions = [1, 2, 3, 4, 5, 6, 7, 8];
+const garmentOptions = [
+  "Kurta Pajama",
+  "Men's Suit",
+  "Pants",
+  "Shirt",
+  "Nehru Jacket",
+  "Waist Coat",
+  "Sherwani",
+  "Indo Western",
+  "Blazer",
+  "Kurta",
+  "Pajama",
+  "Dhoti",
+  "T Shirt",
+  "Co Ord Set"
+];
+const fabricOptions =[
+  "Cotton",
+  "Silk",
+  "Linen",
+  "Wool",
+  "Khadi",
+  "Denim",
+  "Rayon",
+  "Polyester",
+];
+const quantityOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const FabricSection = ({ fieldArray }: Props) => {
   const { append, remove, update } = fieldArray;
@@ -59,7 +83,7 @@ const FabricSection = ({ fieldArray }: Props) => {
   };
 
   return (
-    <div className="bg-gray-100 p-6 rounded-xl space-y-6 border border-blue-400">
+    <div className="bg-gray-100 p-8 py-12 rounded-xl space-y-6 border border-blue-400">
       <h2 className="text-xl font-semibold">Fabric Selection</h2>
 
       {/* Top Controls */}

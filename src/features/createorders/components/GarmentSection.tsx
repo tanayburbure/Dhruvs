@@ -1,14 +1,26 @@
 import { useState } from "react";
-import { useFormContext } from "react-hook-form";
-import { calculateGarment } from "../services/order.service";
-import { OrderFormValues } from "../schemas/order.schema";
 
 interface Props {
   fieldArray: any;
 }
 
-const garmentOptions = ["Pant", "Shirt", "Blazer"];
-const quantityOptions = [1, 2, 3, 4, 5];
+const garmentOptions = [
+  "Kurta Pajama",
+  "Men's Suit",
+  "Pants",
+  "Shirt",
+  "Nehru Jacket",
+  "Waist Coat",
+  "Sherwani",
+  "Indo Western",
+  "Blazer",
+  "Kurta",
+  "Pajama",
+  "Dhoti",
+  "T Shirt",
+  "Co Ord Set"
+];
+const quantityOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 const GarmentSection = ({ fieldArray }: Props) => {
   const { append, remove, update, fields } = fieldArray;
@@ -102,7 +114,7 @@ const GarmentSection = ({ fieldArray }: Props) => {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto py-12">
         <table className="w-full bg-white rounded-lg overflow-hidden">
           <thead className="bg-gray-200">
             <tr>
