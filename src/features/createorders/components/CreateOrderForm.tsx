@@ -13,8 +13,8 @@ import {
   calculateFabricTotal,
 } from "./utils/calculateTotals";
 import MeasurementsSection from "./MeasurementsSection";
-import AddPicturesPage from "../pages/AddPicturesPage";
-import FinalOrderSummary from "../pages/FinalReviewPage";
+import AddPicturesPage from "../../createorders/pages/AddPicturesPage";
+import FinalOrderSummary from "../../createorders/pages/FinalReviewPage";
 
 
 const CreateOrderForm = () => {

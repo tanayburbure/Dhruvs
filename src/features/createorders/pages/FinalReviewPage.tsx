@@ -1,5 +1,5 @@
 import { useFormContext, useWatch } from "react-hook-form";
-import { OrderFormValues } from "./../schemas/order.schema";
+import { OrderFormValues } from "../schemas/order.schema";
 import {
   calculateGarmentTotal,
   calculateFabricTotal,

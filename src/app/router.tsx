@@ -8,13 +8,12 @@ import DashboardHomePage from "@/features/dashboard/pages/DashboardHomePage";
 import OrdersPage from "@/features/orders/pages/OrdersPage";
 import CustomersPage from "@/features/customers/pages/CustomersPage";
 import EmployeesPage from "@/features/employees/pages/EmployeesPage";
-import LimitsPage from "@/features/limits/pages/admin/SetOrderLimit";
 import PaymentsPage from "@/features/payments/pages/PaymentsPage";
 
 // Employee Pages
 import EmployeeDashboard from "@/features/dashboard/pages/DashboardHomePage";
 import EmployeeCustomers from "@/features/customers/pages/CustomersPage";
-import CreateOrderPage from "@/features/orders/pages/CreateOrderPage";
+import CreateOrderPage from "@/features/createorders/pages/CreateOrderPage";
 import SetOrderLimitPage from "@/features/limits/pages/admin/SetOrderLimit";
 
 export default function AppRouter() {
