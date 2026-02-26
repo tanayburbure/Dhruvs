@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import GarmentMediaCard from "../components/media/GarmentMediaCard";
-import ImageUploadModal from "../components/media/ImageUploadModal";
+import ImageUploadModal, {
+  ImageItem,
+} from "../components/media/ImageUploadModal";
 import DrawingCanvasModal from "../components/media/DrawingCanvasModal";
 import ImagePreviewModal from "../components/media/ImagePreviewModal";
 import { OrderFormValues } from "../schemas/order.schema";
@@ -9,37 +11,47 @@ import { OrderFormValues } from "../schemas/order.schema";
 const AddPicturesPage = () => {
   const { control } = useFormContext<OrderFormValues>();
 
-  const garments = useWatch({
-    control,
-    name: "garments",
-  }) || [];
+  const garments =
+    useWatch({
+      control,
+      name: "garments",
+    }) || [];
 
-  // Track which garment is active
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [uploadOpen, setUploadOpen] = useState(false);
   const [drawingOpen, setDrawingOpen] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
 
-  // Store images per garment index
-  const [media, setMedia] = useState<Record<number, string[]>>({});
+  const [media, setMedia] = useState<Record<number, ImageItem[]>>({});
 
-  const handleSaveImages = (files: File[]) => {
+  const handleSaveImages = (newItems: ImageItem[]) => {
     if (activeIndex === null) return;
-
-    const urls = files.map((f) => URL.createObjectURL(f));
 
     setMedia((prev) => ({
       ...prev,
-      [activeIndex]: [...(prev[activeIndex] || []), ...urls],
+      [activeIndex]: [
+        ...(prev[activeIndex] || []),
+        ...newItems,
+      ],
+    }));
+  };
+
+  const handleUpdateImages = (updated: ImageItem[]) => {
+    if (activeIndex === null) return;
+
+    setMedia((prev) => ({
+      ...prev,
+      [activeIndex]: updated,
     }));
   };
 
   return (
     <div className="p-10">
-      <h1 className="text-2xl font-semibold mb-8">Add Pictures</h1>
+      <h1 className="text-2xl font-semibold mb-8">
+        Add Pictures
+      </h1>
 
       <div className="grid grid-cols-2 gap-8">
-
         {garments.map((garment, index) => (
           <GarmentMediaCard
             key={index}
@@ -61,23 +73,19 @@ const AddPicturesPage = () => {
             }}
           />
         ))}
-
       </div>
 
-      {/* Upload Modal */}
       <ImageUploadModal
         isOpen={uploadOpen}
         onClose={() => setUploadOpen(false)}
         onSave={handleSaveImages}
       />
 
-      {/* Drawing Modal */}
       <DrawingCanvasModal
         isOpen={drawingOpen}
         onClose={() => setDrawingOpen(false)}
       />
 
-      {/* Preview Modal */}
       <ImagePreviewModal
         isOpen={previewOpen}
         onClose={() => setPreviewOpen(false)}
@@ -86,6 +94,7 @@ const AddPicturesPage = () => {
             ? media[activeIndex] || []
             : []
         }
+        onUpdate={handleUpdateImages}
       />
     </div>
   );

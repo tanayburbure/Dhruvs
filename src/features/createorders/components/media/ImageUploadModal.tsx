@@ -1,23 +1,48 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Modal from "@/shared/components/Modal";
+
+export interface ImageItem {
+  preview: string;
+  description: string;
+}
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (files: File[]) => void;
+  onSave: (items: ImageItem[]) => void;
 }
 
 const ImageUploadModal = ({ isOpen, onClose, onSave }: Props) => {
-  const [files, setFiles] = useState<File[]>([]);
+  const [images, setImages] = useState<ImageItem[]>([]);
+
+  // Reset every time modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setImages([]);
+    }
+  }, [isOpen]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setFiles(Array.from(e.target.files));
-    }
+    if (!e.target.files) return;
+
+    const newFiles = Array.from(e.target.files).map((file) => ({
+      preview: URL.createObjectURL(file),
+      description: "",
+    }));
+
+    setImages((prev) => [...prev, ...newFiles]);
+  };
+
+  const handleDescriptionChange = (index: number, value: string) => {
+    setImages((prev) =>
+      prev.map((img, i) =>
+        i === index ? { ...img, description: value } : img
+      )
+    );
   };
 
   const handleSave = () => {
-    onSave(files);
+    onSave(images);
     onClose();
   };
 
@@ -33,6 +58,27 @@ const ImageUploadModal = ({ isOpen, onClose, onSave }: Props) => {
         onChange={handleChange}
         className="mb-4"
       />
+
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        {images.map((img, index) => (
+          <div key={index} className="flex flex-col gap-2">
+            <img
+              src={img.preview}
+              alt="preview"
+              className="rounded-lg h-32 object-cover"
+            />
+            <input
+              type="text"
+              placeholder="Enter description"
+              value={img.description}
+              onChange={(e) =>
+                handleDescriptionChange(index, e.target.value)
+              }
+              className="border rounded-md px-2 py-1"
+            />
+          </div>
+        ))}
+      </div>
 
       <button
         onClick={handleSave}

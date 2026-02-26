@@ -1,4 +1,5 @@
 import { ReactNode, useEffect } from "react";
+import { X } from "lucide-react";
 
 interface ModalProps {
   isOpen: boolean;
@@ -37,6 +38,15 @@ const Modal = ({ isOpen, onClose, children }: ModalProps) => {
 
       {/* Modal Content */}
       <div className="relative bg-white rounded-xl shadow-xl p-6 w-[420px] animate-scaleIn">
+        
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 p-1 rounded-md hover:bg-gray-100 transition"
+        >
+          <X size={18} />
+        </button>
+
         {children}
       </div>
     </div>
