@@ -50,15 +50,16 @@ export default function LoginForm() {
         required
         autoComplete="email"
       />
+
       <Input
         label="Password"
-        type="email"
-        name="email"
-        value={formData.email}
+        type="password"
+        name="password"
+        value={formData.password}
         onChange={handleChange}
         placeholder="Enter your password"
         required
-        autoComplete="email"
+        autoComplete="current-password"
       />
       <Role
         selectedRole={selectedRole}
