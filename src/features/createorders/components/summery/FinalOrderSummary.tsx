@@ -1,5 +1,5 @@
 import { useFormContext } from "react-hook-form";
-import FinalOrderSummary from "../../../orders/pages/FinalReviewPage";
+import FinalOrderSummary from "../../pages/FinalReviewPage";
 
 const FinalReviewPage = () => {
   const { getValues } = useFormContext();
