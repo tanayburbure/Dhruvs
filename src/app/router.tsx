@@ -22,7 +22,7 @@ export default function AppRouter() {
       <Routes>
 
         {/* Redirect root to admin for now */}
-        <Route path="/" element={<Navigate to="/admin" replace />} />
+        <Route path="/" element={<Navigate to="/" replace />} />
 
         {/* ================= ADMIN ROUTES ================= */}
         <Route path="/admin" element={<AdminLayout />}>
