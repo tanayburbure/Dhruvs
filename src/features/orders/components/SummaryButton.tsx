@@ -7,12 +7,6 @@ const SummaryButton = ({ data }: any) => {
 
   return (
     <div>
-      <button
-        onClick={() => setShowPDF(true)}
-        className="px-4 py-2 bg-black text-white rounded"
-      >
-        Summary
-      </button>
 
       {showPDF && (
         <div style={{ height: "100vh", marginTop: 20 }}>

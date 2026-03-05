@@ -6,7 +6,6 @@ export default function EmployeeLayout() {
   return (
     <div
       className="flex h-screen overflow-hidden"
-      style={{ background: "#f4f4f6", fontFamily: "'Inter', system-ui, sans-serif" }}
     >
       <EmployeeSidebar />
 
@@ -15,9 +14,9 @@ export default function EmployeeLayout() {
 
         <main className="flex-1 overflow-y-auto px-6 py-5">
           <div
-            className="h-full rounded-2xl overflow-auto"
+            className="h-full rounded-2xl p-2 overflow-auto"
             style={{
-              background: "#ffffff",
+              background: "#F8FAFC",
               boxShadow: "0 1px 3px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06)",
               border: "1px solid rgba(0,0,0,0.05)",
             }}

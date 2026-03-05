@@ -17,7 +17,7 @@ import {
 } from "./utils/calculateTotals";
 
 import AddPicturesPage from "../../createorders/pages/AddPicturesPage";
-import FinalOrderSummary from "../../createorders/pages/FinalReviewPage";
+import FinalOrderSummary from "../pages/FinalReviewPageComponent";
 import SummaryButton from "../../orders/components/SummaryButton";
 
 /* ───────────────── Section Card ───────────────── */
@@ -117,15 +117,11 @@ const CreateOrderForm = () => {
 
   return (
     <FormProvider {...methods}>
-      <div className="min-h-screen bg-slate-50 px-8 py-10">
+      <div className="min-h-screen bg-slate-50 px-8 mb-4">
         {/* Header */}
 
         <div className="flex items-start justify-between mb-8">
           <div>
-            <p className="text-xs uppercase tracking-widest text-slate-400 mb-1">
-              Orders / New
-            </p>
-
             <h1 className="text-3xl font-bold text-slate-900 tracking-tight">
               Create Order
             </h1>
@@ -162,27 +158,39 @@ const CreateOrderForm = () => {
 
           {/* Instructions + Delivery */}
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
-            <div className="rounded-xl border bg-white px-6 py-6 shadow-sm">
-              <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-4">
+            {/* Special Instructions */}
+            <div style={{ borderRadius: "10px", border: "1.5px solid #e2e8f0", background: "white", padding: "20px 20px" }}>
+              <label style={{ fontSize: "11px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.09em", color: "#94a3b8", display: "block", marginBottom: "10px" }}>
                 Special Instructions
-              </p>
-
+              </label>
               <button
                 type="button"
                 onClick={() => setIsInstructionOpen(true)}
-                className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-lg border border-dashed border-slate-300 text-sm font-medium text-slate-600 bg-slate-50 hover:bg-slate-100"
+                style={{
+                  width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
+                  padding: "10px 16px", borderRadius: "10px",
+                  border: "1.5px dashed #e2e8f0", background: "#f8fafc",
+                  fontSize: "13.5px", fontWeight: 500, color: "#64748b",
+                  cursor: "pointer", fontFamily: "inherit",
+                  transition: "border-color 0.18s ease, background 0.18s ease",
+                }}
+                onMouseEnter={e => { e.currentTarget.style.borderColor = "#94a3b8"; e.currentTarget.style.background = "#f1f5f9"; }}
+                onMouseLeave={e => { e.currentTarget.style.borderColor = "#e2e8f0"; e.currentTarget.style.background = "#f8fafc"; }}
               >
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+                </svg>
                 Add Instructions
               </button>
             </div>
 
-            <div className="rounded-xl border bg-white px-6 py-6 shadow-sm">
-              <p className="text-xs font-semibold uppercase tracking-widest text-slate-400 mb-4">
+            {/* Delivery Date */}
+            <div style={{ borderRadius: "10px", border: "1.5px solid #e2e8f0", background: "white", padding: "20px 20px" }}>
+              <label style={{ fontSize: "11px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.09em", color: "#94a3b8", display: "block", marginBottom: "10px" }}>
                 Delivery Date
-              </p>
-
+              </label>
               <DeliveryDatePicker />
             </div>
 

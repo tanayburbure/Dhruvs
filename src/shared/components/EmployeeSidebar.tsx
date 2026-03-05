@@ -42,11 +42,7 @@ export default function Sidebar() {
   return (
     <div
       className="w-64 h-screen flex flex-col"
-      style={{
-        background: "#ffffff",
-        fontFamily: "'Inter', system-ui, sans-serif",
-        boxShadow: "2px 0 16px rgba(0,0,0,0.06)",
-      }}
+      
     >
       {/* Logo */}
       <div className="flex justify-center pt-8 pb-6 px-6">

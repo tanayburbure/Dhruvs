@@ -1,7 +1,7 @@
 import { useFormContext } from "react-hook-form";
-import FinalOrderSummary from "../../pages/FinalReviewPage";
+import FinalReviewPageComponent from "@/features/createorders/pages/FinalReviewPageComponent";
 
-const FinalReviewPage = () => {
+const FinalOrderSummary = () => {
   const { getValues } = useFormContext();
 
   const handlePrint = () => {
@@ -25,7 +25,7 @@ const FinalReviewPage = () => {
         Final Order Summary
       </h1>
 
-      <FinalOrderSummary />
+      <FinalReviewPageComponent />
 
       <div className="flex justify-center gap-6 mt-6">
         <button
@@ -46,4 +46,4 @@ const FinalReviewPage = () => {
   );
 };
 
-export default FinalReviewPage;
+export default FinalOrderSummary;

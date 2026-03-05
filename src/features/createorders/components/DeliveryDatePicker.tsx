@@ -19,7 +19,7 @@ const DeliveryDatePicker = () => {
           dateFormat="MMMM d, yyyy h:mm aa"
           minDate={new Date()}
           placeholderText="Select Delivery Date"
-          className="px-4 py-2 border rounded-lg w-[250px]"
+          className="px-4 py-2 border border-gray-400 rounded-lg w-[250px]"
           popperPlacement="bottom-start"
         />
       )}

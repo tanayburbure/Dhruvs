@@ -1,11 +1,14 @@
 import { useFormContext, useWatch } from "react-hook-form";
+import lobo from "@/assets/lobo.svg";
+
 import { OrderFormValues } from "../schemas/order.schema";
 import {
   calculateGarmentTotal,
   calculateFabricTotal,
 } from "../components/utils/calculateTotals";
+        <img src={lobo} alt="Logo" className="w-[24vh]" />
 
-const FinalOrderSummary = () => {
+const FinalReviewPageComponent = () => {
   const { control } = useFormContext<OrderFormValues>();
 
   const fullData = useWatch({ control });
@@ -19,7 +22,8 @@ const FinalOrderSummary = () => {
 
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
-        <img src="/logo.png" alt="logo" className="h-16" />
+      <img src={lobo} alt="Logo" className="w-[20vh]" />
+
 
         <div className="text-right">
           <p className="font-semibold">{fullData.fullName}</p>
@@ -72,4 +76,4 @@ const FinalOrderSummary = () => {
   );
 };
 
-export default FinalOrderSummary;
+export default FinalReviewPageComponent;

@@ -1,6 +1,6 @@
 export default function Header() {
     return (
-      <div className="h-16 bg-white shadow px-6 flex items-center justify-between">
+      <div className="h-16 bg-white  px-6 flex items-center justify-between">
         <input
           type="text"
           placeholder="Search..."
