@@ -99,7 +99,7 @@ const DrawingCanvasModal = ({ isOpen, onClose }: Props) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <h2 className="text-lg font-semibold mb-4">Drawing Canvas</h2>
+      <h2 className="text-md leading-tighter font-semibold mb-4">Drawing Canvas</h2>
 
       <div className="flex gap-3 mb-4">
         <button

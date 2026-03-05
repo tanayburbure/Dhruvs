@@ -29,7 +29,7 @@ const ImagePreviewModal = ({
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <h2 className="text-lg font-semibold mb-4">
+      <h2 className="text-md leading-tighter font-semibold mb-4">
         View / Edit Images
       </h2>
 

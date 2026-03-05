@@ -48,7 +48,7 @@ const ImageUploadModal = ({ isOpen, onClose, onSave }: Props) => {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <h2 className="text-lg font-semibold mb-4">
+      <h2 className="text-md leading-tighter font-semibold mb-4">
         Upload Fabric Pictures
       </h2>
 
