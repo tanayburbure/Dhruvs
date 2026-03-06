@@ -36,19 +36,16 @@ export default function Input({
           htmlFor={name}
           className={`
             absolute left-3 z-10 origin-left pointer-events-none select-none
-            transition-all duration-200 ease-out
+            transition-all duration-200 ease-out text-sm
             ${
               isFloating
                 ? "-translate-y-[22px] scale-[0.78] text-amber-500 font-semibold tracking-wide px-1 bg-white"
                 : "translate-y-[10px] scale-100 text-slate-400 font-normal"
             }
-            text-sm
           `}
         >
           {label}
-          {required && (
-            <span className="ml-0.5 text-rose-400">*</span>
-          )}
+          {required && <span className="ml-0.5 text-rose-400">*</span>}
         </label>
       )}
 
@@ -69,8 +66,6 @@ export default function Input({
           border-2 rounded-xl outline-none
           transition-all duration-200 ease-out
           placeholder:text-slate-300 placeholder:text-sm
-
-          /* Border states */
           ${
             focused
               ? "border-amber-500 shadow-[0_0_0_4px_rgba(251,191,36,0.18)]"
@@ -78,10 +73,7 @@ export default function Input({
               ? "border-slate-300 hover:border-slate-400"
               : "border-slate-200 hover:border-slate-300"
           }
-
-          /* Subtle lift on focus */
           ${focused ? "-translate-y-px" : "translate-y-0"}
-
           ${className}
         `}
       />

@@ -4,10 +4,7 @@ import Header from "@/shared/components/Header";
 
 export default function AdminLayout() {
   return (
-    <div
-      className="flex h-screen overflow-hidden"
-      style={{ background: "#f4f4f6", fontFamily: "'Inter', system-ui, sans-serif" }}
-    >
+    <div className="flex h-screen overflow-hidden bg-[#f4f4f6] font-['Inter',system-ui,sans-serif]">
       {/* Sidebar — fixed height, no scroll bleed */}
       <Sidebar />
 
@@ -17,14 +14,7 @@ export default function AdminLayout() {
 
         {/* Content area */}
         <main className="flex-1 overflow-y-auto px-6 py-5">
-          <div
-            className="h-full rounded-2xl overflow-auto"
-            style={{
-              background: "#ffffff",
-              boxShadow: "0 1px 3px rgba(0,0,0,0.04), 0 8px 24px rgba(0,0,0,0.06)",
-              border: "1px solid rgba(0,0,0,0.05)",
-            }}
-          >
+          <div className="h-full rounded-2xl overflow-auto bg-white border border-black/5 shadow-[0_1px_3px_rgba(0,0,0,0.04),0_8px_24px_rgba(0,0,0,0.06)]">
             <Outlet />
           </div>
         </main>

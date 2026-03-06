@@ -5,44 +5,56 @@ import { OrderFormValues } from "../schemas/order.schema";
 type MeasurementKeys = keyof OrderFormValues["measurements"];
 
 const fields: MeasurementKeys[] = [
-  "shoulder", "sleeveLength", "chest", "stomach", "neck",
-  "frontShoulder", "backShoulder", "length", "waist",
-  "hip", "front", "thigh", "knee", "legOpening", "bottom",
+  "shoulder",
+  "sleeveLength",
+  "chest",
+  "stomach",
+  "neck",
+  "frontShoulder",
+  "backShoulder",
+  "length",
+  "waist",
+  "hip",
+  "front",
+  "thigh",
+  "knee",
+  "legOpening",
+  "bottom",
 ];
 
-function MeasurementInput({ label, registerProps }: { label: string; registerProps: any }) {
+function MeasurementInput({
+  label,
+  registerProps,
+}: {
+  label: string;
+  registerProps: any;
+}) {
   const [focused, setFocused] = useState(false);
+
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-      <label style={{
-        fontSize: "11px", fontWeight: 600, textTransform: "uppercase",
-        letterSpacing: "0.09em", color: "#94a3b8",
-      }}>
+    <div className="flex flex-col gap-[8px]">
+      <label className="text-[11px] font-semibold uppercase tracking-[0.09em] text-slate-400">
         {label}
       </label>
-      <div style={{ position: "relative" }}>
+
+      <div className="relative">
         <input
           type="number"
           step="0.1"
           {...registerProps}
           onFocus={() => setFocused(true)}
-          onBlur={(e) => { setFocused(false); registerProps.onBlur?.(e); }}
-          style={{
-            height: "44px", padding: "0 40px 0 14px", borderRadius: "10px",
-            fontSize: "13.5px", color: "#1e293b", background: "#f8fafc",
-            border: `1.5px solid ${focused ? "#94a3b8" : "#e2e8f0"}`,
-            boxShadow: focused ? "0 0 0 3px rgba(148,163,184,0.12)" : "none",
-            outline: "none", width: "100%", boxSizing: "border-box",
-            transition: "border-color 0.18s ease, box-shadow 0.18s ease",
-            fontFamily: "inherit",
+          onBlur={(e) => {
+            setFocused(false);
+            registerProps.onBlur?.(e);
           }}
+          className={`h-[44px] w-full pl-[14px] pr-[40px] rounded-[10px] text-[13.5px] text-slate-800 bg-slate-50 border-[1.5px] outline-none box-border transition-all duration-[180ms] ${
+            focused
+              ? "border-slate-400 shadow-[0_0_0_3px_rgba(148,163,184,0.12)]"
+              : "border-slate-200"
+          }`}
         />
-        <span style={{
-          position: "absolute", right: "12px", top: "50%",
-          transform: "translateY(-50%)",
-          fontSize: "11px", fontWeight: 600, color: "#cbd5e1",
-          pointerEvents: "none",
-        }}>
+
+        <span className="absolute right-[12px] top-1/2 -translate-y-1/2 text-[11px] font-semibold text-slate-300 pointer-events-none">
           in
         </span>
       </div>
@@ -60,7 +72,9 @@ const MeasurementsSection = () => {
           <MeasurementInput
             key={field}
             label={field.replace(/([A-Z])/g, " $1").trim()}
-            registerProps={register(`measurements.${field}`, { valueAsNumber: true })}
+            registerProps={register(`measurements.${field}`, {
+              valueAsNumber: true,
+            })}
           />
         ))}
       </div>

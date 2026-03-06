@@ -109,7 +109,6 @@ const CreateOrderForm = () => {
   const calculatedTotal = garmentTotal + fabricTotal;
 
   const [isInstructionOpen, setIsInstructionOpen] = useState(false);
-  const [submitHovered, setSubmitHovered] = useState(false);
 
   const onSubmit = (data: OrderFormValues) => {
     console.log("Final Order Data:", data);
@@ -143,7 +142,6 @@ const CreateOrderForm = () => {
         {/* Form */}
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-
           <Section title="Customer Details" icon={<span />}>
             <CustomerDetailsSection />
           </Section>
@@ -159,41 +157,44 @@ const CreateOrderForm = () => {
           {/* Instructions + Delivery */}
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-
             {/* Special Instructions */}
-            <div style={{ borderRadius: "10px", border: "1.5px solid #e2e8f0", background: "white", padding: "20px 20px" }}>
-              <label style={{ fontSize: "11px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.09em", color: "#94a3b8", display: "block", marginBottom: "10px" }}>
+
+            <div className="rounded-[10px] border-[1.5px] border-slate-200 bg-white px-[20px] py-[20px]">
+              <label className="block mb-[10px] text-[11px] font-semibold uppercase tracking-[0.09em] text-slate-400">
                 Special Instructions
               </label>
+
               <button
                 type="button"
                 onClick={() => setIsInstructionOpen(true)}
-                style={{
-                  width: "100%", display: "flex", alignItems: "center", justifyContent: "center", gap: "8px",
-                  padding: "10px 16px", borderRadius: "10px",
-                  border: "1.5px dashed #e2e8f0", background: "#f8fafc",
-                  fontSize: "13.5px", fontWeight: 500, color: "#64748b",
-                  cursor: "pointer", fontFamily: "inherit",
-                  transition: "border-color 0.18s ease, background 0.18s ease",
-                }}
-                onMouseEnter={e => { e.currentTarget.style.borderColor = "#94a3b8"; e.currentTarget.style.background = "#f1f5f9"; }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = "#e2e8f0"; e.currentTarget.style.background = "#f8fafc"; }}
+                className="w-full flex items-center justify-center gap-2 px-[16px] py-[10px] rounded-[10px] border-[1.5px] border-dashed border-slate-200 bg-slate-50 text-[13.5px] font-medium text-slate-500 transition-colors hover:border-slate-400 hover:bg-slate-100"
               >
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="12" y1="5" x2="12" y2="19" /><line x1="5" y1="12" x2="19" y2="12" />
+                <svg
+                  width="13"
+                  height="13"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <line x1="12" y1="5" x2="12" y2="19" />
+                  <line x1="5" y1="12" x2="19" y2="12" />
                 </svg>
                 Add Instructions
               </button>
             </div>
 
             {/* Delivery Date */}
-            <div style={{ borderRadius: "10px", border: "1.5px solid #e2e8f0", background: "white", padding: "20px 20px" }}>
-              <label style={{ fontSize: "11px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.09em", color: "#94a3b8", display: "block", marginBottom: "10px" }}>
+
+            <div className="rounded-[10px] border-[1.5px] border-slate-200 bg-white px-[20px] py-[20px]">
+              <label className="block mb-[10px] text-[11px] font-semibold uppercase tracking-[0.09em] text-slate-400">
                 Delivery Date
               </label>
+
               <DeliveryDatePicker />
             </div>
-
           </div>
 
           <Section title="Order Summary" icon={<span />}>
@@ -215,7 +216,6 @@ const CreateOrderForm = () => {
           {/* Sticky Footer */}
 
           <div className="sticky bottom-4 bg-white border rounded-xl shadow-lg px-8 py-4 flex items-center justify-between">
-
             <div>
               <p className="text-xs uppercase text-slate-400 tracking-wider">
                 Total
@@ -227,27 +227,16 @@ const CreateOrderForm = () => {
             </div>
 
             <div className="flex items-center gap-3">
-
               <SummaryButton />
 
               <button
                 type="submit"
-                onMouseEnter={() => setSubmitHovered(true)}
-                onMouseLeave={() => setSubmitHovered(false)}
-                className="px-7 py-3 rounded-lg text-sm font-semibold text-white transition-all"
-                style={{
-                  background: "#0f172a",
-                  boxShadow: submitHovered
-                    ? "0 8px 25px rgba(15,23,42,0.35)"
-                    : "0 2px 8px rgba(15,23,42,0.2)",
-                }}
+                className="px-7 py-3 rounded-lg text-sm font-semibold text-white bg-slate-900 transition-all shadow-[0_2px_8px_rgba(15,23,42,0.2)] hover:shadow-[0_8px_25px_rgba(15,23,42,0.35)]"
               >
                 Create Order
               </button>
-
             </div>
           </div>
-
         </form>
       </div>
 

@@ -42,18 +42,24 @@ const AddPicturesPage = () => {
               garmentType={garment.garmentType}
               orderId={100 + index}
               quantity={garment.quantity}
-              onAddFabricPicture={() => { setActiveIndex(index); setUploadOpen(true); }}
-              onAddDrawing={() => { setActiveIndex(index); setDrawingOpen(true); }}
-              onViewImages={() => { setActiveIndex(index); setPreviewOpen(true); }}
+              onAddFabricPicture={() => {
+                setActiveIndex(index);
+                setUploadOpen(true);
+              }}
+              onAddDrawing={() => {
+                setActiveIndex(index);
+                setDrawingOpen(true);
+              }}
+              onViewImages={() => {
+                setActiveIndex(index);
+                setPreviewOpen(true);
+              }}
             />
           ))}
         </div>
       ) : (
-        <div style={{
-          padding: "32px", textAlign: "center", borderRadius: "10px",
-          border: "1.5px dashed #e2e8f0", background: "#f8fafc",
-        }}>
-          <p style={{ fontSize: "13px", color: "#94a3b8", margin: 0 }}>
+        <div className="px-[32px] py-[32px] text-center rounded-[10px] border-[1.5px] border-dashed border-slate-200 bg-slate-50">
+          <p className="text-[13px] text-slate-400 m-0">
             No garments added yet — add garments above to attach pictures
           </p>
         </div>

@@ -20,8 +20,12 @@ export default function Button({
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     const id = Date.now();
+
     setRipples((prev) => [...prev, { x, y, id }]);
-    setTimeout(() => setRipples((prev) => prev.filter((r) => r.id !== id)), 600);
+    setTimeout(() => {
+      setRipples((prev) => prev.filter((r) => r.id !== id));
+    }, 600);
+
     onClick?.();
   };
 
@@ -35,40 +39,33 @@ export default function Button({
         rounded-xl
         text-sm font-semibold tracking-wide
         text-amber-950
+        bg-gradient-to-br from-amber-500 to-yellow-400
+        shadow-[0_4px_14px_rgba(234,179,8,0.35),inset_0_1px_0_rgba(255,255,255,0.25)]
         transition-all duration-200 ease-out
         active:scale-[0.97]
-        focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400 focus-visible:ring-offset-2
+        hover:-translate-y-[2px]
+        hover:shadow-[0_8px_24px_rgba(234,179,8,0.45),inset_0_1px_0_rgba(255,255,255,0.25)]
+        focus:outline-none
+        focus-visible:ring-2
+        focus-visible:ring-yellow-400
+        focus-visible:ring-offset-2
         ${className}
       `}
-      style={{
-        background: "linear-gradient(135deg, #f59e0b 0%, #eab308 100%)",
-        boxShadow: "0 4px 14px rgba(234,179,8,0.35), inset 0 1px 0 rgba(255,255,255,0.25)",
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.transform = "translateY(-2px)";
-        e.currentTarget.style.boxShadow =
-          "0 8px 24px rgba(234,179,8,0.45), inset 0 1px 0 rgba(255,255,255,0.25)";
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.transform = "translateY(0)";
-        e.currentTarget.style.boxShadow =
-          "0 4px 14px rgba(234,179,8,0.35), inset 0 1px 0 rgba(255,255,255,0.25)";
-      }}
     >
       {/* Shimmer overlay */}
       <span
-        className="pointer-events-none absolute inset-0 rounded-xl opacity-0 hover:opacity-100 transition-opacity duration-300"
-        style={{
-          background:
-            "linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.18) 50%, transparent 60%)",
-        }}
+        className="
+          pointer-events-none absolute inset-0 rounded-xl
+          opacity-0 hover:opacity-100 transition-opacity duration-300
+          bg-[linear-gradient(105deg,transparent_40%,rgba(255,255,255,0.18)_50%,transparent_60%)]
+        "
       />
 
       {/* Ripple effects */}
       {ripples.map((r) => (
         <span
           key={r.id}
-          className="pointer-events-none absolute rounded-full"
+          className="pointer-events-none absolute rounded-full bg-white/50 animate-[ripple_0.6s_cubic-bezier(0.4,0,0.2,1)_forwards]"
           style={{
             left: r.x,
             top: r.y,
@@ -76,15 +73,14 @@ export default function Button({
             height: "8px",
             marginLeft: "-4px",
             marginTop: "-4px",
-            background: "rgba(255,255,255,0.5)",
-            transform: "scale(0)",
-            animation: "ripple 0.6s cubic-bezier(0.4,0,0.2,1) forwards",
           }}
         />
       ))}
 
       {/* Label */}
-      <span className="relative z-10 flex items-center gap-2">{children}</span>
+      <span className="relative z-10 flex items-center gap-2">
+        {children}
+      </span>
 
       <style>{`
         @keyframes ripple {

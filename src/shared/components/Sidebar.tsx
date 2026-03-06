@@ -8,8 +8,10 @@ const navItems = [
     label: "Dashboard",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="3" width="7" height="7" rx="1" /><rect x="14" y="3" width="7" height="7" rx="1" />
-        <rect x="14" y="14" width="7" height="7" rx="1" /><rect x="3" y="14" width="7" height="7" rx="1" />
+        <rect x="3" y="3" width="7" height="7" rx="1" />
+        <rect x="14" y="3" width="7" height="7" rx="1" />
+        <rect x="14" y="14" width="7" height="7" rx="1" />
+        <rect x="3" y="14" width="7" height="7" rx="1" />
       </svg>
     ),
   },
@@ -58,14 +60,8 @@ const navItems = [
 
 export default function Sidebar() {
   return (
-    <div
-      className="w-64 h-screen flex flex-col"
-      style={{
-        background: "#ffffff",
-        fontFamily: "'Inter', system-ui, sans-serif",
-        boxShadow: "2px 0 16px rgba(0,0,0,0.06)",
-      }}
-    >
+    <div className="w-64 h-screen flex flex-col bg-white font-sans shadow-[2px_0_16px_rgba(0,0,0,0.06)]">
+
       {/* Logo */}
       <div className="flex justify-center pt-8 pb-6 px-6">
         <img src={lobo} alt="Logo" className="w-[24vh]" />
@@ -74,34 +70,34 @@ export default function Sidebar() {
       {/* Nav */}
       <nav className="flex flex-col gap-1 flex-1 px-4 pt-2">
         {navItems.map(({ to, end, label, icon }) => (
-          <NavLink
-            key={to}
-            to={to}
-            end={end}
-            style={{ textDecoration: "none" }}
-          >
+          <NavLink key={to} to={to} end={end} className="no-underline">
             {({ isActive }) => (
               <div
-                className="flex items-center gap-3.5 px-4 py-3 rounded-full transition-all duration-200"
-                style={{
-                  background: isActive
-                    ? "linear-gradient(135deg, #f8d748, #eab308)"
-                    : "transparent",
-                  boxShadow: isActive
-                    ? "0 4px 16px rgba(234,179,8,0.3)"
-                    : "none",
-                }}
-                onMouseEnter={(e) => {
-                  if (!isActive) e.currentTarget.style.background = "#f9fafb";
-                }}
-                onMouseLeave={(e) => {
-                  if (!isActive) e.currentTarget.style.background = "transparent";
-                }}
+                className={`
+                  flex items-center gap-3.5 px-4 py-3 rounded-full
+                  transition-all duration-200
+                  ${
+                    isActive
+                      ? "bg-gradient-to-br from-yellow-300 to-yellow-500 shadow-[0_4px_16px_rgba(234,179,8,0.3)]"
+                      : "hover:bg-gray-50"
+                  }
+                `}
               >
-                <span style={{ color: isActive ? "#fff" : "#c0bfbf", display: "flex", alignItems: "center", flexShrink: 0, transition: "color 0.2s" }}>
+                <span
+                  className={`
+                    flex items-center shrink-0 transition-colors duration-200
+                    ${isActive ? "text-white" : "text-gray-400"}
+                  `}
+                >
                   {icon}
                 </span>
-                <span style={{ fontSize: "14px", fontWeight: isActive ? 600 : 500, color: isActive ? "#fff" : "#9ca3af", letterSpacing: "-0.01em", transition: "color 0.2s" }}>
+
+                <span
+                  className={`
+                    text-[14px] tracking-[-0.01em] transition-colors duration-200
+                    ${isActive ? "text-white font-semibold" : "text-gray-400 font-medium"}
+                  `}
+                >
                   {label}
                 </span>
               </div>
@@ -112,15 +108,11 @@ export default function Sidebar() {
 
       {/* Logout */}
       <div className="px-8 pb-8 text-center">
-        <button
-          className="text-sm font-semibold transition-colors duration-150"
-          style={{ color: "#374151", background: "none", border: "none", cursor: "pointer", letterSpacing: "0.06em", textTransform: "uppercase" }}
-          onMouseEnter={(e) => (e.currentTarget.style.color = "#111827")}
-          onMouseLeave={(e) => (e.currentTarget.style.color = "#374151")}
-        >
+        <button className="text-sm font-semibold uppercase tracking-[0.06em] text-gray-700 hover:text-gray-900 transition-colors duration-150">
           Log Out →
         </button>
       </div>
+
     </div>
   );
 }

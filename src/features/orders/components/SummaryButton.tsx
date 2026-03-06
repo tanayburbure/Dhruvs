@@ -9,12 +9,13 @@ const SummaryButton = ({ data }: any) => {
     <div>
 
       {showPDF && (
-        <div style={{ height: "100vh", marginTop: 20 }}>
+        <div className="h-screen mt-[20px]">
           <PDFViewer width="100%" height="100%">
             <InvoicePDF data={data} />
           </PDFViewer>
         </div>
       )}
+
     </div>
   );
 };

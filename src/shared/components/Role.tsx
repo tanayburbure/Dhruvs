@@ -47,26 +47,27 @@ export default function Role({
       {/* Label */}
       <label
         htmlFor="role-select"
-        className="mb-2 text-xs font-semibold tracking-widest uppercase"
-        style={{ color: "#92400e" }}
+        className="mb-2 text-xs font-semibold tracking-widest uppercase text-amber-900"
       >
         Select Role
       </label>
 
-      {/* Trigger button */}
+      {/* Trigger */}
       <button
         id="role-select"
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="relative flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200"
-        style={{
-          border: `2px solid ${open ? "#eab308" : "#CAD5E2"}`,
-          color: selected ? "#78350f" : "#a16207",
-          boxShadow: open
-            ? "0 0 0 4px rgba(234,179,8,0.15), 0 2px 8px rgba(234,179,8,0.1)"
-            : "0 1px 4px rgba(234,179,8,0.08)",
-          transform: open ? "translateY(-1px)" : "translateY(0)",
-        }}
+        className={`
+          relative flex items-center justify-between
+          px-4 py-3 rounded-xl text-sm font-medium
+          transition-all duration-200
+          ${
+            open
+              ? "border-2 border-yellow-500 shadow-[0_0_0_4px_rgba(234,179,8,0.15),0_2px_8px_rgba(234,179,8,0.1)] -translate-y-[1px]"
+              : "border-2 border-slate-300 shadow-[0_1px_4px_rgba(234,179,8,0.08)]"
+          }
+          ${selected ? "text-amber-900" : "text-yellow-700"}
+        `}
       >
         <span>{selected ? selected.label : "Choose your role…"}</span>
 
@@ -80,10 +81,9 @@ export default function Role({
           strokeWidth="2.5"
           strokeLinecap="round"
           strokeLinejoin="round"
-          style={{
-            transition: "transform 0.25s cubic-bezier(0.4,0,0.2,1)",
-            transform: open ? "rotate(180deg)" : "rotate(0deg)",
-          }}
+          className={`transition-transform duration-200 ${
+            open ? "rotate-180" : "rotate-0"
+          }`}
         >
           <polyline points="6 9 12 15 18 9" />
         </svg>
@@ -95,13 +95,7 @@ export default function Role({
         onChange={(e) => onSelect(e.target.value)}
         aria-hidden="true"
         tabIndex={-1}
-        style={{
-          position: "absolute",
-          opacity: 0,
-          pointerEvents: "none",
-          width: 0,
-          height: 0,
-        }}
+        className="absolute opacity-0 pointer-events-none w-0 h-0"
       >
         <option value="" disabled>
           Choose your role…
@@ -113,31 +107,21 @@ export default function Role({
         ))}
       </select>
 
-      {/* Floating Dropdown */}
+      {/* Dropdown */}
       <div
-        style={{
-          position: "absolute",
-          top: "100%",
-          left: 0,
-          width: "100%",
-          marginTop: "6px",
-          zIndex: 100,
-          overflow: "hidden",
-          borderRadius: "14px",
-          maxHeight: open ? `${roles.length * 52 + 12}px` : "0px",
-          opacity: open ? 1 : 0,
-          transform: open
-            ? "translateY(0) scale(1)"
-            : "translateY(-8px) scale(0.96)",
-          transformOrigin: "top",
-          transition:
-            "max-height 0.28s cubic-bezier(0.4,0,0.2,1), opacity 0.2s ease, transform 0.22s cubic-bezier(0.4,0,0.2,1)",
-          background: "white",
-          border: "2px solid #fde68a",
-          boxShadow:
-            "0 8px 32px rgba(234,179,8,0.14), 0 2px 8px rgba(0,0,0,0.06)",
-          pointerEvents: open ? "auto" : "none",
-        }}
+        className={`
+          absolute top-full left-0 w-full mt-1.5 z-[100]
+          overflow-hidden rounded-[14px]
+          bg-white border-2 border-yellow-200
+          shadow-[0_8px_32px_rgba(234,179,8,0.14),0_2px_8px_rgba(0,0,0,0.06)]
+          transition-all duration-200 origin-top
+          ${
+            open
+              ? "opacity-100 translate-y-0 scale-100 pointer-events-auto"
+              : "opacity-0 -translate-y-2 scale-[0.96] pointer-events-none"
+          }
+        `}
+        style={{ maxHeight: open ? roles.length * 52 + 12 : 0 }}
       >
         <div className="p-2 flex flex-col gap-1">
           {roles.map((role) => {
@@ -154,22 +138,17 @@ export default function Role({
                 }}
                 onMouseEnter={() => setHovered(role.value)}
                 onMouseLeave={() => setHovered(null)}
-                className="flex items-center px-3 py-2.5 rounded-lg text-sm font-medium text-left w-full transition-all duration-150"
-                style={{
-                  background: isSelected
-                    ? "#fef08a"
-                    : isHovered
-                    ? "#fefce8"
-                    : "transparent",
-                  color: isSelected ? "#78350f" : "#92400e",
-                  border: isSelected
-                    ? "1.5px solid #fde047"
-                    : "1.5px solid transparent",
-                  transform:
-                    isHovered && !isSelected
-                      ? "translateX(3px)"
-                      : "translateX(0)",
-                }}
+                className={`
+                  flex items-center px-3 py-2.5 rounded-lg text-sm font-medium
+                  text-left w-full transition-all duration-150
+                  ${
+                    isSelected
+                      ? "bg-yellow-200 border border-yellow-400 text-amber-900"
+                      : isHovered
+                      ? "bg-yellow-50 text-amber-900 translate-x-[3px]"
+                      : "text-amber-900 border border-transparent"
+                  }
+                `}
               >
                 {role.label}
 

@@ -19,45 +19,64 @@ const OrderSummary = () => {
   return (
     <div className="space-y-6 py-2">
 
-      {/* Customer info row */}
+      {/* Customer info */}
       <div className="flex items-center justify-between">
-        <div /> {/* spacer — title is handled by Section wrapper */}
-        <div style={{ textAlign: "right" }}>
+        <div />
+
+        <div className="text-right">
           {fullName && (
-            <p style={{ fontSize: "13px", fontWeight: 500, color: "#475569", margin: 0 }}>
+            <p className="text-[13px] font-medium text-slate-600 m-0">
               {fullName}
             </p>
           )}
-          <p style={{ fontSize: "11px", color: "#94a3b8", margin: 0 }}>Order #3</p>
+          <p className="text-[11px] text-slate-400 m-0">Order #3</p>
         </div>
       </div>
 
       {/* Garments */}
       {garments.length > 0 && (
         <div>
-          <p style={{ fontSize: "11px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.09em", color: "#94a3b8", marginBottom: "8px" }}>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.09em] text-slate-400 mb-[8px]">
             Garments
           </p>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13.5px" }}>
+
+          <table className="w-full border-collapse text-[13.5px]">
             <thead>
-              <tr style={{ background: "#f8fafc", borderBottom: "1.5px solid #e2e8f0" }}>
+              <tr className="bg-slate-50 border-b border-slate-200">
                 {["Garment", "Qty", "Stitching Cost", "Total"].map((h, i) => (
-                  <th key={h} style={{ padding: "9px 14px", textAlign: i === 0 ? "left" : "center", fontSize: "11px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#94a3b8" }}>
+                  <th
+                    key={h}
+                    className={`px-[14px] py-[9px] text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-400 ${
+                      i === 0 ? "text-left" : "text-center"
+                    }`}
+                  >
                     {h}
                   </th>
                 ))}
               </tr>
             </thead>
+
             <tbody>
               {garments.map((g: any, i: number) => (
-                <tr key={i} style={{ borderBottom: "1px solid #f1f5f9", transition: "background 0.15s" }}
-                  onMouseEnter={e => (e.currentTarget.style.background = "#fafafa")}
-                  onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+                <tr
+                  key={i}
+                  className="border-b border-slate-100 hover:bg-gray-50 transition"
                 >
-                  <td style={{ padding: "11px 14px", color: "#1e293b", fontWeight: 500 }}>{g.garmentType}</td>
-                  <td style={{ padding: "11px 14px", textAlign: "center", color: "#475569" }}>{g.quantity}</td>
-                  <td style={{ padding: "11px 14px", textAlign: "center", color: "#475569" }}>₹{g.stitchingCost.toLocaleString("en-IN")}</td>
-                  <td style={{ padding: "11px 14px", textAlign: "center", fontWeight: 600, color: "#1e293b" }}>₹{(g.quantity * g.stitchingCost).toLocaleString("en-IN")}</td>
+                  <td className="px-[14px] py-[11px] text-slate-800 font-medium">
+                    {g.garmentType}
+                  </td>
+
+                  <td className="px-[14px] py-[11px] text-center text-slate-600">
+                    {g.quantity}
+                  </td>
+
+                  <td className="px-[14px] py-[11px] text-center text-slate-600">
+                    ₹{g.stitchingCost.toLocaleString("en-IN")}
+                  </td>
+
+                  <td className="px-[14px] py-[11px] text-center font-semibold text-slate-800">
+                    ₹{(g.quantity * g.stitchingCost).toLocaleString("en-IN")}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -68,29 +87,47 @@ const OrderSummary = () => {
       {/* Fabrics */}
       {fabrics.length > 0 && (
         <div>
-          <p style={{ fontSize: "11px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.09em", color: "#94a3b8", marginBottom: "8px" }}>
+          <p className="text-[11px] font-semibold uppercase tracking-[0.09em] text-slate-400 mb-[8px]">
             Fabrics
           </p>
-          <table style={{ width: "100%", borderCollapse: "collapse", fontSize: "13.5px" }}>
+
+          <table className="w-full border-collapse text-[13.5px]">
             <thead>
-              <tr style={{ background: "#f8fafc", borderBottom: "1.5px solid #e2e8f0" }}>
+              <tr className="bg-slate-50 border-b border-slate-200">
                 {["Fabric", "Qty", "Price", "Total"].map((h, i) => (
-                  <th key={h} style={{ padding: "9px 14px", textAlign: i === 0 ? "left" : "center", fontSize: "11px", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.08em", color: "#94a3b8" }}>
+                  <th
+                    key={h}
+                    className={`px-[14px] py-[9px] text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-400 ${
+                      i === 0 ? "text-left" : "text-center"
+                    }`}
+                  >
                     {h}
                   </th>
                 ))}
               </tr>
             </thead>
+
             <tbody>
               {fabrics.map((f: any, i: number) => (
-                <tr key={i} style={{ borderBottom: "1px solid #f1f5f9", transition: "background 0.15s" }}
-                  onMouseEnter={e => (e.currentTarget.style.background = "#fafafa")}
-                  onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+                <tr
+                  key={i}
+                  className="border-b border-slate-100 hover:bg-gray-50 transition"
                 >
-                  <td style={{ padding: "11px 14px", color: "#1e293b", fontWeight: 500 }}>{f.fabricName}</td>
-                  <td style={{ padding: "11px 14px", textAlign: "center", color: "#475569" }}>{f.quantity}</td>
-                  <td style={{ padding: "11px 14px", textAlign: "center", color: "#475569" }}>₹{f.price.toLocaleString("en-IN")}</td>
-                  <td style={{ padding: "11px 14px", textAlign: "center", fontWeight: 600, color: "#1e293b" }}>₹{(f.quantity * f.price).toLocaleString("en-IN")}</td>
+                  <td className="px-[14px] py-[11px] text-slate-800 font-medium">
+                    {f.fabricName}
+                  </td>
+
+                  <td className="px-[14px] py-[11px] text-center text-slate-600">
+                    {f.quantity}
+                  </td>
+
+                  <td className="px-[14px] py-[11px] text-center text-slate-600">
+                    ₹{f.price.toLocaleString("en-IN")}
+                  </td>
+
+                  <td className="px-[14px] py-[11px] text-center font-semibold text-slate-800">
+                    ₹{(f.quantity * f.price).toLocaleString("en-IN")}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -100,32 +137,43 @@ const OrderSummary = () => {
 
       {/* Empty state */}
       {garments.length === 0 && fabrics.length === 0 && (
-        <div style={{ padding: "28px", textAlign: "center", borderRadius: "10px", border: "1.5px dashed #e2e8f0", background: "#f8fafc" }}>
-          <p style={{ fontSize: "13px", color: "#94a3b8", margin: 0 }}>
+        <div className="px-[28px] py-[28px] text-center rounded-[10px] border-[1.5px] border-dashed border-slate-200 bg-slate-50">
+          <p className="text-[13px] text-slate-400 m-0">
             Add garments or fabrics to see the summary
           </p>
         </div>
       )}
 
       {/* Totals */}
-      <div style={{ borderTop: "1.5px solid #e2e8f0", paddingTop: "16px", display: "flex", flexDirection: "column", gap: "6px", alignItems: "flex-end" }}>
-        <div style={{ display: "flex", gap: "32px", fontSize: "13.5px", color: "#475569" }}>
+      <div className="border-t border-slate-200 pt-[16px] flex flex-col gap-[6px] items-end">
+
+        <div className="flex gap-[32px] text-[13.5px] text-slate-600">
           <span>Garment Total</span>
-          <span style={{ fontWeight: 500, color: "#1e293b", minWidth: "80px", textAlign: "right" }}>₹{garmentTotal.toLocaleString("en-IN")}</span>
+          <span className="font-medium text-slate-800 min-w-[80px] text-right">
+            ₹{garmentTotal.toLocaleString("en-IN")}
+          </span>
         </div>
-        <div style={{ display: "flex", gap: "32px", fontSize: "13.5px", color: "#475569" }}>
+
+        <div className="flex gap-[32px] text-[13.5px] text-slate-600">
           <span>Fabric Total</span>
-          <span style={{ fontWeight: 500, color: "#1e293b", minWidth: "80px", textAlign: "right" }}>₹{fabricTotal.toLocaleString("en-IN")}</span>
+          <span className="font-medium text-slate-800 min-w-[80px] text-right">
+            ₹{fabricTotal.toLocaleString("en-IN")}
+          </span>
         </div>
-        <div style={{ height: "1px", width: "240px", background: "#e2e8f0", margin: "4px 0" }} />
-        <div style={{ display: "flex", gap: "32px", fontSize: "15px" }}>
-          <span style={{ fontWeight: 600, color: "#1e293b" }}>Grand Total</span>
-          <span style={{ fontWeight: 700, color: "#1e293b", minWidth: "80px", textAlign: "right" }}>₹{grandTotal.toLocaleString("en-IN")}</span>
+
+        <div className="h-[1px] w-[240px] bg-slate-200 my-[4px]" />
+
+        <div className="flex gap-[32px] text-[15px]">
+          <span className="font-semibold text-slate-800">Grand Total</span>
+          <span className="font-bold text-slate-800 min-w-[80px] text-right">
+            ₹{grandTotal.toLocaleString("en-IN")}
+          </span>
         </div>
+
       </div>
 
       {/* Payment */}
-      <div style={{ display: "flex", justifyContent: "flex-end", paddingTop: "4px" }}>
+      <div className="flex justify-end pt-[4px]">
         <div className="[&>button]:px-5 [&>button]:py-2.5 [&>button]:rounded-lg [&>button]:text-sm [&>button]:font-semibold [&>button]:bg-gradient-to-r [&>button]:from-yellow-400 [&>button]:to-amber-400 [&>button]:text-amber-950 [&>button]:shadow-sm [&>button]:transition-all [&>button]:duration-150 hover:[&>button]:shadow-md hover:[&>button]:-translate-y-px">
           <PaymentModal total={grandTotal} />
         </div>
