@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useOrderStore } from "../store/orderStore";
 
 interface PaymentPanelProps {
   total: number;
@@ -6,10 +7,23 @@ interface PaymentPanelProps {
 }
 
 const PaymentPanel = ({ total, onClose }: PaymentPanelProps) => {
+
   const [amountPaid, setAmountPaid] = useState<number>(0);
   const [mode, setMode] = useState<"cash" | "upi" | null>(null);
 
   const balance = total - amountPaid;
+
+  const setOrder = useOrderStore((s) => s.setOrder);
+
+  // Move setOrder into useEffect to update order store when payment details change
+  useEffect(() => {
+    // Save payment info in order store as top-level fields, not under "payment"
+    setOrder({
+      amountPaid,
+      paymentMode: mode,
+      balance,
+    });
+  }, [amountPaid, mode, balance, setOrder]);
 
   const handleSave = () => {
     console.log({
@@ -28,17 +42,22 @@ const PaymentPanel = ({ total, onClose }: PaymentPanelProps) => {
 
       <div>
         <label className="text-sm text-gray-500">Amount Paid (₹)</label>
+
         <input
           type="number"
           value={amountPaid}
           onChange={(e) => setAmountPaid(Number(e.target.value))}
           className="w-full mt-1 border rounded-md p-2"
         />
+
       </div>
 
       <div>
+
         <label className="text-sm text-gray-500">Payment Mode</label>
+
         <div className="flex gap-3 mt-2">
+
           <button
             type="button"
             onClick={() => setMode("cash")}
@@ -58,7 +77,9 @@ const PaymentPanel = ({ total, onClose }: PaymentPanelProps) => {
           >
             UPI
           </button>
+
         </div>
+
       </div>
 
       <div className="text-sm text-right space-y-1 text-gray-600">
@@ -67,6 +88,7 @@ const PaymentPanel = ({ total, onClose }: PaymentPanelProps) => {
       </div>
 
       <div className="flex gap-3 pt-3">
+
         <button
           onClick={onClose}
           className="flex-1 border rounded-md p-2"
@@ -80,7 +102,9 @@ const PaymentPanel = ({ total, onClose }: PaymentPanelProps) => {
         >
           Save Payment
         </button>
+
       </div>
+
     </div>
   );
 };

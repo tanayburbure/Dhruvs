@@ -13,16 +13,7 @@ type Props = {
 const ICON_SIZE = 22;
 
 const CameraIcon = () => (
-  <svg
-    width={ICON_SIZE}
-    height={ICON_SIZE}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2.2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
+  <svg width={ICON_SIZE} height={ICON_SIZE} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
     <rect x="3" y="7" width="18" height="13" rx="2" />
     <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
     <circle cx="12" cy="14" r="3" />
@@ -30,32 +21,14 @@ const CameraIcon = () => (
 );
 
 const BrushIcon = () => (
-  <svg
-    width={ICON_SIZE}
-    height={ICON_SIZE}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2.2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
+  <svg width={ICON_SIZE} height={ICON_SIZE} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
     <path d="M19 15V4a2 2 0 0 0-2-2H7A2 2 0 0 0 5 4v11a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2Z" />
     <path d="M9 18l6 3-6 3v-6Z" />
   </svg>
 );
 
 const ImageIcon = () => (
-  <svg
-    width={ICON_SIZE}
-    height={ICON_SIZE}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2.2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
+  <svg width={ICON_SIZE} height={ICON_SIZE} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
     <rect x="3" y="3" width="18" height="18" rx="2" />
     <circle cx="8.5" cy="8.5" r="1.5" />
     <path d="M21 21l-6-6a2 2 0 0 0-2.828 0l-7 7" />
@@ -78,25 +51,15 @@ function ActionRow({
       onClick={onClick}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className={`flex items-center justify-between px-[12px] py-[13px] rounded-[13px] cursor-pointer min-h-[40px] transition-all duration-[180ms] ease-in-out border-2 ${
-        hovered
-          ? "bg-[#f8fafc] border-[#e2e8f0]"
-          : "bg-transparent border-transparent"
+      className={`flex items-center justify-between px-[12px] py-[13px] rounded-[13px] cursor-pointer border-2 ${
+        hovered ? "bg-[#f8fafc] border-[#e2e8f0]" : "border-transparent"
       }`}
     >
-      <span
-        className={`text-[16.5px] font-semibold tracking-[0.02em] transition-colors duration-[180ms] ${
-          hovered ? "text-[#1e293b]" : "text-[#475569]"
-        }`}
-      >
+      <span className={`text-[16.5px] font-semibold ${hovered ? "text-[#1e293b]" : "text-[#475569]"}`}>
         {label}
       </span>
 
-      <span
-        className={`flex items-center transition-colors duration-[180ms] ${
-          hovered ? "text-[#1e293b]" : "text-[#94a3b8]"
-        }`}
-      >
+      <span className={hovered ? "text-[#1e293b]" : "text-[#94a3b8]"}>
         {icon}
       </span>
     </div>
@@ -113,24 +76,21 @@ const GarmentMediaCard = ({
   onViewImages,
 }: Props) => {
   return (
-    <div className="bg-white rounded-[16px] border-2 border-[#e2e8f0] px-[18px] py-[22px] flex flex-col gap-[20px] w-[310px] shadow-[0_2px_11px_rgba(0,0,0,0.07)]">
-      {/* Info */}
+    <div className="bg-white rounded-[16px] border-2 border-[#e2e8f0] px-[18px] py-[22px] flex flex-col gap-[20px] w-[310px]">
+
       <div className="flex flex-col gap-[10px]">
-        <p className="text-[19px] font-extrabold text-[#1e293b] m-0 tracking-[-0.03em]">
+        <p className="text-[19px] font-extrabold text-[#1e293b]">
           {customerName}
         </p>
 
         <div className="flex flex-col gap-[7px]">
-          {([
+          {[
             ["Garment", garmentType],
             ["Order ID", `#${orderId}`],
             ["Quantity", quantity],
-          ] as [string, string | number][]).map(([key, val]) => (
-            <div
-              key={key}
-              className="flex justify-between items-center"
-            >
-              <span className="text-[13.5px] font-bold uppercase tracking-[0.09em] text-[#94a3b8]">
+          ].map(([key, val]) => (
+            <div key={key} className="flex justify-between">
+              <span className="text-[13.5px] font-bold uppercase text-[#94a3b8]">
                 {key}
               </span>
 
@@ -142,27 +102,14 @@ const GarmentMediaCard = ({
         </div>
       </div>
 
-      {/* Divider */}
       <div className="h-[1.5px] bg-[#f1f5f9]" />
 
-      {/* Actions */}
       <div className="flex flex-col gap-[6px]">
-        <ActionRow
-          label="Add Fabric Picture"
-          icon={<CameraIcon />}
-          onClick={onAddFabricPicture}
-        />
-        <ActionRow
-          label="Add Drawing"
-          icon={<BrushIcon />}
-          onClick={onAddDrawing}
-        />
-        <ActionRow
-          label="View / Edit Images"
-          icon={<ImageIcon />}
-          onClick={onViewImages}
-        />
+        <ActionRow label="Add Fabric Picture" icon={<CameraIcon />} onClick={onAddFabricPicture} />
+        <ActionRow label="Add Drawing" icon={<BrushIcon />} onClick={onAddDrawing} />
+        <ActionRow label="View / Edit Images" icon={<ImageIcon />} onClick={onViewImages} />
       </div>
+
     </div>
   );
 };

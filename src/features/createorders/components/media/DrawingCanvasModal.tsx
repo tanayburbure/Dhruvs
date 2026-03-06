@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import Modal from "@/shared/components/Modal";
 import { Stage, Layer, Line } from "react-konva";
+import { useOrderStore } from "../../store/orderStore";
 
 type Props = {
   isOpen: boolean;
@@ -14,6 +15,7 @@ interface DrawLine {
 const DrawingCanvasModal = ({ isOpen, onClose }: Props) => {
   const [lines, setLines] = useState<DrawLine[]>([]);
   const [isDrawing, setIsDrawing] = useState(false);
+
   const stageRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
@@ -22,7 +24,10 @@ const DrawingCanvasModal = ({ isOpen, onClose }: Props) => {
     height: 256,
   });
 
-  // Make stage responsive
+  const [drawingImage, setDrawingImage] = useState<string | null>(null);
+
+  const setOrder = useOrderStore((s) => s.setOrder);
+
   useEffect(() => {
     if (!isOpen) return;
 
@@ -40,6 +45,15 @@ const DrawingCanvasModal = ({ isOpen, onClose }: Props) => {
 
     return () => window.removeEventListener("resize", updateSize);
   }, [isOpen]);
+
+  // Keep setOrder in sync with drawingImage state
+  useEffect(() => {
+    if (drawingImage) {
+      setOrder({
+        drawingImage,
+      });
+    }
+  }, [drawingImage, setOrder]);
 
   const handlePointerDown = () => {
     setIsDrawing(true);
@@ -77,7 +91,6 @@ const DrawingCanvasModal = ({ isOpen, onClose }: Props) => {
     setIsDrawing(false);
   };
 
-  // Save canvas as image
   const handleSaveImage = () => {
     const stage = stageRef.current;
     if (!stage) return;
@@ -86,20 +99,24 @@ const DrawingCanvasModal = ({ isOpen, onClose }: Props) => {
       pixelRatio: 2,
     });
 
+    // Only update drawingImage state, not setOrder directly
+    setDrawingImage(dataURL);
+
     const link = document.createElement("a");
     link.download = "drawing.png";
     link.href = dataURL;
     link.click();
   };
 
-  // Clear canvas
   const handleClear = () => {
     setLines([]);
   };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <h2 className="text-md leading-tighter font-semibold mb-4">Drawing Canvas</h2>
+      <h2 className="text-md leading-tighter font-semibold mb-4">
+        Drawing Canvas
+      </h2>
 
       <div className="flex gap-3 mb-4">
         <button

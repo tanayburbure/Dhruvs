@@ -1,21 +1,24 @@
 import { useFormContext } from "react-hook-form";
 import FinalReviewPageComponent from "@/features/createorders/pages/FinalReviewPageComponent";
+import { useOrderStore } from "../../store/orderStore";  
 
 const FinalOrderSummary = () => {
+
   const { getValues } = useFormContext();
+
+  const order = useOrderStore((s) => s.order);
 
   const handlePrint = () => {
     window.print();
   };
 
   const handleFinish = () => {
-    const data = getValues();
-    console.log("Final Order Submitted:", data);
 
-    // TODO:
-    // send to backend
-    // reset form
-    // redirect
+    const data = getValues();
+
+    console.log("Final Order Submitted:", data);
+    console.log("Zustand Order Data:", order);
+
   };
 
   return (
@@ -28,6 +31,7 @@ const FinalOrderSummary = () => {
       <FinalReviewPageComponent />
 
       <div className="flex justify-center gap-6 mt-6">
+
         <button
           onClick={handlePrint}
           className="px-6 py-2 bg-yellow-500 text-white rounded-full"
@@ -41,7 +45,9 @@ const FinalOrderSummary = () => {
         >
           Finish Order
         </button>
+
       </div>
+
     </div>
   );
 };

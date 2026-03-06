@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { CustomerFormData } from "../schemas/customerSchema";
 import { INDIAN_STATES } from "@/shared/constants/indianStates";
+import { useOrderStore } from "../store/orderStore";
 
-/* ── Shared field wrapper ─────────────────────────────────── */
+/* Field wrapper */
 function Field({
   label,
   error,
@@ -22,29 +23,13 @@ function Field({
       {children}
 
       {error && (
-        <span className="flex items-center gap-1 text-xs text-red-400">
-          <svg
-            width="11"
-            height="11"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <circle cx="12" cy="12" r="10" />
-            <line x1="12" y1="8" x2="12" y2="12" />
-            <line x1="12" y1="16" x2="12.01" y2="16" />
-          </svg>
-          {error}
-        </span>
+        <span className="text-xs text-red-400">{error}</span>
       )}
     </div>
   );
 }
 
-/* ── Styled input ─────────────────────────────────────────── */
+/* Styled input */
 function SInput({
   error,
   className = "",
@@ -55,26 +40,23 @@ function SInput({
   return (
     <input
       {...props}
-      onFocus={(e) => {
-        setFocused(true);
-        props.onFocus?.(e);
-      }}
+      onFocus={() => setFocused(true)}
       onBlur={(e) => {
         setFocused(false);
         props.onBlur?.(e);
       }}
-      className={`h-[44px] px-[14px] rounded-[10px] text-[13.5px] text-slate-800 bg-slate-50 border-[1.5px] outline-none w-full box-border transition-all duration-[180ms] ease-in-out font-inherit ${
+      className={`h-[44px] px-[14px] rounded-[10px] text-[13.5px] bg-slate-50 border-[1.5px] outline-none w-full transition-all ${
         error
-          ? "border-red-300 shadow-[0_0_0_3px_rgba(248,113,113,0.08)]"
+          ? "border-red-300"
           : focused
-          ? "border-slate-400 shadow-[0_0_0_3px_rgba(148,163,184,0.12)]"
+          ? "border-slate-400"
           : "border-slate-200"
       } ${className}`}
     />
   );
 }
 
-/* ── Styled select ────────────────────────────────────────── */
+/* Styled select */
 function SSelect({
   error,
   children,
@@ -85,43 +67,50 @@ function SSelect({
   return (
     <select
       {...props}
-      onFocus={(e) => {
-        setFocused(true);
-        props.onFocus?.(e);
-      }}
-      onBlur={(e) => {
-        setFocused(false);
-        props.onBlur?.(e);
-      }}
-      className={`h-[44px] pl-[14px] pr-[36px] rounded-[10px] text-[13.5px] text-slate-800 bg-slate-50 border-[1.5px] outline-none w-full box-border transition-all duration-[180ms] ease-in-out appearance-none cursor-pointer ${
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
+      className={`h-[44px] pl-[14px] pr-[36px] rounded-[10px] text-[13.5px] bg-slate-50 border-[1.5px] outline-none w-full transition-all ${
         error
-          ? "border-red-300 shadow-[0_0_0_3px_rgba(248,113,113,0.08)]"
+          ? "border-red-300"
           : focused
-          ? "border-slate-400 shadow-[0_0_0_3px_rgba(148,163,184,0.12)]"
+          ? "border-slate-400"
           : "border-slate-200"
       }`}
-      style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`,
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "right 13px center",
-      }}
     >
       {children}
     </select>
   );
 }
 
-/* ── Main ─────────────────────────────────────────────────── */
 const CustomerDetailsSection = () => {
   const {
     register,
+    watch,
     formState: { errors },
   } = useFormContext<CustomerFormData>();
+
+  const setOrder = useOrderStore((s) => s.setOrder);
+
+  const fullName = watch("fullName");
+  const mobile = watch("mobile");
+  const email = watch("email");
+  const city = watch("city");
+  const state = watch("state");
+
+  useEffect(() => {
+    setOrder({
+      fullName,
+      mobile,
+      email,
+      city,
+      state,
+    });
+  }, [fullName, mobile, email, city, state, setOrder]);
 
   return (
     <section className="py-8 px-2">
       <div className="w-full max-w-2xl space-y-5">
-        {/* Full Name */}
+
         <Field label="Full Name" error={errors.fullName?.message}>
           <SInput
             placeholder="Enter full name"
@@ -130,10 +119,9 @@ const CustomerDetailsSection = () => {
           />
         </Field>
 
-        {/* Mobile */}
         <Field label="Mobile Number" error={errors.mobile?.message}>
           <div className="flex gap-2">
-            <div className="h-[44px] px-[13px] rounded-[10px] shrink-0 bg-slate-100 border-[1.5px] border-slate-200 flex items-center text-[13.5px] font-semibold text-slate-500">
+            <div className="h-[44px] px-[13px] rounded-[10px] bg-slate-100 border border-slate-200 flex items-center text-sm">
               +91
             </div>
 
@@ -147,7 +135,6 @@ const CustomerDetailsSection = () => {
           </div>
         </Field>
 
-        {/* Email */}
         <Field label="Email Address" error={errors.email?.message}>
           <SInput
             type="email"
@@ -157,8 +144,8 @@ const CustomerDetailsSection = () => {
           />
         </Field>
 
-        {/* City + State */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
           <Field label="City" error={errors.city?.message}>
             <SInput
               placeholder="Enter city"
@@ -170,6 +157,7 @@ const CustomerDetailsSection = () => {
           <Field label="State" error={errors.state?.message}>
             <SSelect error={!!errors.state} {...register("state")}>
               <option value="">Select state…</option>
+
               {INDIAN_STATES.map((s) => (
                 <option key={s} value={s}>
                   {s}
@@ -177,7 +165,9 @@ const CustomerDetailsSection = () => {
               ))}
             </SSelect>
           </Field>
+
         </div>
+
       </div>
     </section>
   );

@@ -1,9 +1,11 @@
 import { useFormContext, useWatch } from "react-hook-form";
+import { useEffect } from "react";
 import {
   calculateGarmentTotal,
   calculateFabricTotal,
 } from "./utils/calculateTotals";
 import PaymentModal from "./PaymentModal";
+import { useOrderStore } from "../store/orderStore";
 
 const OrderSummary = () => {
   const { control } = useFormContext();
@@ -16,10 +18,18 @@ const OrderSummary = () => {
   const fabricTotal = calculateFabricTotal(fabrics);
   const grandTotal = garmentTotal + fabricTotal;
 
+  const setOrder = useOrderStore((s) => s.setOrder);
+
+  useEffect(() => {
+    setOrder({
+      garments,
+      fabrics,
+    });
+  }, [garments, fabrics, setOrder]);
+
   return (
     <div className="space-y-6 py-2">
 
-      {/* Customer info */}
       <div className="flex items-center justify-between">
         <div />
 
@@ -33,14 +43,15 @@ const OrderSummary = () => {
         </div>
       </div>
 
-      {/* Garments */}
       {garments.length > 0 && (
         <div>
+
           <p className="text-[11px] font-semibold uppercase tracking-[0.09em] text-slate-400 mb-[8px]">
             Garments
           </p>
 
           <table className="w-full border-collapse text-[13.5px]">
+
             <thead>
               <tr className="bg-slate-50 border-b border-slate-200">
                 {["Garment", "Qty", "Stitching Cost", "Total"].map((h, i) => (
@@ -80,18 +91,21 @@ const OrderSummary = () => {
                 </tr>
               ))}
             </tbody>
+
           </table>
+
         </div>
       )}
 
-      {/* Fabrics */}
       {fabrics.length > 0 && (
         <div>
+
           <p className="text-[11px] font-semibold uppercase tracking-[0.09em] text-slate-400 mb-[8px]">
             Fabrics
           </p>
 
           <table className="w-full border-collapse text-[13.5px]">
+
             <thead>
               <tr className="bg-slate-50 border-b border-slate-200">
                 {["Fabric", "Qty", "Price", "Total"].map((h, i) => (
@@ -131,20 +145,12 @@ const OrderSummary = () => {
                 </tr>
               ))}
             </tbody>
+
           </table>
+
         </div>
       )}
 
-      {/* Empty state */}
-      {garments.length === 0 && fabrics.length === 0 && (
-        <div className="px-[28px] py-[28px] text-center rounded-[10px] border-[1.5px] border-dashed border-slate-200 bg-slate-50">
-          <p className="text-[13px] text-slate-400 m-0">
-            Add garments or fabrics to see the summary
-          </p>
-        </div>
-      )}
-
-      {/* Totals */}
       <div className="border-t border-slate-200 pt-[16px] flex flex-col gap-[6px] items-end">
 
         <div className="flex gap-[32px] text-[13.5px] text-slate-600">
@@ -172,11 +178,8 @@ const OrderSummary = () => {
 
       </div>
 
-      {/* Payment */}
       <div className="flex justify-end pt-[4px]">
-        <div className="[&>button]:px-5 [&>button]:py-2.5 [&>button]:rounded-lg [&>button]:text-sm [&>button]:font-semibold [&>button]:bg-gradient-to-r [&>button]:from-yellow-400 [&>button]:to-amber-400 [&>button]:text-amber-950 [&>button]:shadow-sm [&>button]:transition-all [&>button]:duration-150 hover:[&>button]:shadow-md hover:[&>button]:-translate-y-px">
-          <PaymentModal total={grandTotal} />
-        </div>
+        <PaymentModal total={grandTotal} />
       </div>
 
     </div>

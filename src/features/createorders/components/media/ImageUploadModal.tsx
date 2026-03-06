@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import Modal from "@/shared/components/Modal";
+import { useOrderStore } from "../../store/orderStore";
 
 export interface ImageItem {
   preview: string;
@@ -13,16 +14,24 @@ interface Props {
 }
 
 const ImageUploadModal = ({ isOpen, onClose, onSave }: Props) => {
+
   const [images, setImages] = useState<ImageItem[]>([]);
 
-  // Reset every time modal opens
+  const setOrder = useOrderStore((s) => s.setOrder);
+
   useEffect(() => {
     if (isOpen) {
       setImages([]);
     }
   }, [isOpen]);
 
+  // Move setOrder to update whenever images changes
+  useEffect(() => {
+    setOrder({ images });
+  }, [images, setOrder]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
     if (!e.target.files) return;
 
     const newFiles = Array.from(e.target.files).map((file) => ({
@@ -34,6 +43,7 @@ const ImageUploadModal = ({ isOpen, onClose, onSave }: Props) => {
   };
 
   const handleDescriptionChange = (index: number, value: string) => {
+
     setImages((prev) =>
       prev.map((img, i) =>
         i === index ? { ...img, description: value } : img
@@ -42,31 +52,35 @@ const ImageUploadModal = ({ isOpen, onClose, onSave }: Props) => {
   };
 
   const handleSave = () => {
+
+    // setOrder({ images }); // moved to useEffect
+
     onSave(images);
+
     onClose();
   };
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
+
       <h2 className="text-md leading-tighter font-semibold mb-4">
         Upload Fabric Pictures
       </h2>
 
-      <input
-        type="file"
-        multiple
-        onChange={handleChange}
-        className="mb-4"
-      />
+      <input type="file" multiple onChange={handleChange} className="mb-4" />
 
       <div className="grid grid-cols-2 gap-4 mb-4">
+
         {images.map((img, index) => (
+
           <div key={index} className="flex flex-col gap-2">
+
             <img
               src={img.preview}
               alt="preview"
               className="rounded-lg h-32 object-cover"
             />
+
             <input
               type="text"
               placeholder="Enter description"
@@ -76,8 +90,11 @@ const ImageUploadModal = ({ isOpen, onClose, onSave }: Props) => {
               }
               className="border rounded-md px-2 py-1"
             />
+
           </div>
+
         ))}
+
       </div>
 
       <button
@@ -86,6 +103,7 @@ const ImageUploadModal = ({ isOpen, onClose, onSave }: Props) => {
       >
         Save Images
       </button>
+
     </Modal>
   );
 };

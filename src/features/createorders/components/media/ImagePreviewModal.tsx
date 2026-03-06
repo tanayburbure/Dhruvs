@@ -1,5 +1,7 @@
+import { useEffect, useRef } from "react";
 import Modal from "@/shared/components/Modal";
 import { ImageItem } from "./ImageUploadModal";
+import { useOrderStore } from "../../store/orderStore";
 
 interface Props {
   isOpen: boolean;
@@ -8,12 +10,23 @@ interface Props {
   onUpdate: (updated: ImageItem[]) => void;
 }
 
-const ImagePreviewModal = ({
-  isOpen,
-  onClose,
-  images,
-  onUpdate,
-}: Props) => {
+const ImagePreviewModal = ({ isOpen, onClose, images, onUpdate }: Props) => {
+  const setOrder = useOrderStore((s) => s.setOrder);
+
+  // store previous images to avoid infinite loops
+  const prevImagesRef = useRef<ImageItem[]>([]);
+
+  useEffect(() => {
+    const prevImages = prevImagesRef.current;
+
+    const changed =
+      JSON.stringify(prevImages) !== JSON.stringify(images);
+
+    if (changed) {
+      setOrder({ images });
+      prevImagesRef.current = images;
+    }
+  }, [images, setOrder]);
 
   const handleDescriptionChange = (index: number, value: string) => {
     const updated = images.map((img, i) =>

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFormContext } from "react-hook-form";
 import { OrderFormValues } from "../schemas/order.schema";
+import { useOrderStore } from "../store/orderStore";
 
 type MeasurementKeys = keyof OrderFormValues["measurements"];
 
@@ -63,7 +64,15 @@ function MeasurementInput({
 }
 
 const MeasurementsSection = () => {
-  const { register } = useFormContext<OrderFormValues>();
+  const { register, watch } = useFormContext<OrderFormValues>();
+
+  const measurements = watch("measurements");
+
+  const setOrder = useOrderStore((s) => s.setOrder);
+
+  useEffect(() => {
+    setOrder({ measurements });
+  }, [measurements, setOrder]);
 
   return (
     <div className="py-2">

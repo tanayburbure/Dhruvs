@@ -1,4 +1,5 @@
 import { useFormContext } from "react-hook-form";
+import { useOrderStore } from "../store/orderStore";
 
 interface Props {
   isOpen: boolean;
@@ -6,7 +7,10 @@ interface Props {
 }
 
 const SpecialInstructionsModal = ({ isOpen, onClose }: Props) => {
-  const { register } = useFormContext();
+  const { register, watch } = useFormContext();
+  const setOrder = useOrderStore((s) => s.setOrder);
+
+  const instructions = watch("specialInstructions");
 
   if (!isOpen) return null;
 
@@ -19,6 +23,11 @@ const SpecialInstructionsModal = ({ isOpen, onClose }: Props) => {
 
         <textarea
           {...register("specialInstructions")}
+          onChange={(e) => {
+            register("specialInstructions").onChange(e);
+            setOrder({ specialInstructions: e.target.value });
+          }}
+          defaultValue={instructions}
           placeholder="Write special instructions..."
           className="w-full h-32 border rounded-lg p-3"
         />

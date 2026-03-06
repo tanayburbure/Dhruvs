@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useFormContext, useWatch } from "react-hook-form";
 import GarmentMediaCard from "../components/media/GarmentMediaCard";
 import ImageUploadModal, { ImageItem } from "../components/media/ImageUploadModal";
 import DrawingCanvasModal from "../components/media/DrawingCanvasModal";
 import ImagePreviewModal from "../components/media/ImagePreviewModal";
 import { OrderFormValues } from "../schemas/order.schema";
+import { useOrderStore } from "../store/orderStore";
 
 const AddPicturesPage = () => {
   const { control } = useFormContext<OrderFormValues>();
@@ -15,27 +16,57 @@ const AddPicturesPage = () => {
   const [uploadOpen, setUploadOpen] = useState(false);
   const [drawingOpen, setDrawingOpen] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
+
   const [media, setMedia] = useState<Record<number, ImageItem[]>>({});
 
+  const setOrder = useOrderStore((s) => s.setOrder);
+
+  // Instead of calling setOrder in handlers, just set state, and sync with useEffect
   const handleSaveImages = (newItems: ImageItem[]) => {
     if (activeIndex === null) return;
-    setMedia((prev) => ({
-      ...prev,
-      [activeIndex]: [...(prev[activeIndex] || []), ...newItems],
-    }));
+
+    const updated = {
+      ...media,
+      [activeIndex]: [...(media[activeIndex] || []), ...newItems],
+    };
+
+    setMedia(updated);
   };
 
   const handleUpdateImages = (updated: ImageItem[]) => {
     if (activeIndex === null) return;
-    setMedia((prev) => ({ ...prev, [activeIndex]: updated }));
+
+    const newMedia = {
+      ...media,
+      [activeIndex]: updated,
+    };
+
+    setMedia(newMedia);
   };
+
+  // Sync garments state with order store
+  useEffect(() => {
+    setOrder({
+      garments,
+    });
+  }, [garments, setOrder]);
+
+  // Sync media state with order store
+  useEffect(() => {
+    setOrder({
+      garmentImages: media,
+    });
+  }, [media, setOrder]);
 
   return (
     <div className="py-2">
 
       {garments.length > 0 ? (
+
         <div className="flex flex-wrap gap-4">
+
           {garments.map((garment, index) => (
+
             <GarmentMediaCard
               key={index}
               customerName="Customer Name"
@@ -55,14 +86,21 @@ const AddPicturesPage = () => {
                 setPreviewOpen(true);
               }}
             />
+
           ))}
+
         </div>
+
       ) : (
+
         <div className="px-[32px] py-[32px] text-center rounded-[10px] border-[1.5px] border-dashed border-slate-200 bg-slate-50">
+
           <p className="text-[13px] text-slate-400 m-0">
             No garments added yet — add garments above to attach pictures
           </p>
+
         </div>
+
       )}
 
       <ImageUploadModal
