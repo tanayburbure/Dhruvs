@@ -18,14 +18,16 @@ const OrderSummary = () => {
   const fabricTotal = calculateFabricTotal(fabrics);
   const grandTotal = garmentTotal + fabricTotal;
 
+  const order = useOrderStore((s) => s.order);
   const setOrder = useOrderStore((s) => s.setOrder);
 
   useEffect(() => {
     setOrder({
+      ...order,
       garments,
       fabrics,
     });
-  }, [garments, fabrics, setOrder]);
+  }, [garments, fabrics]);
 
   return (
     <div className="space-y-6 py-2">

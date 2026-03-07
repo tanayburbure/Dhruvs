@@ -11,18 +11,23 @@ import { useOrderStore } from "../store/orderStore";
 const FinalReviewPageComponent = () => {
   const { control } = useFormContext<OrderFormValues>();
 
-  const fullData = useWatch({ control });
+  const fullData = useWatch({
+    control,
+  }) as OrderFormValues;
 
-  const garmentTotal = calculateGarmentTotal(fullData.garments || []);
-  const fabricTotal = calculateFabricTotal(fullData.fabrics || []);
+  const garmentTotal = calculateGarmentTotal(fullData?.garments ?? []);
+  const fabricTotal = calculateFabricTotal(fullData?.fabrics ?? []);
   const grandTotal = garmentTotal + fabricTotal;
 
   const setOrder = useOrderStore((s) => s.setOrder);
 
   useEffect(() => {
-    setOrder({
-      finalReview: fullData,
-    });
+    if (!fullData) return;
+
+    // remove any recursive finalReview before storing
+    const { finalReview, ...cleanData } = fullData as any;
+
+    setOrder(cleanData);
   }, [fullData, setOrder]);
 
   return (
@@ -35,7 +40,7 @@ const FinalReviewPageComponent = () => {
         <div className="text-right flex flex-col gap-[6px]">
 
           <p className="text-[17px] font-bold text-slate-800 tracking-[-0.01em] m-0">
-            {fullData.fullName || "—"}
+            {fullData?.fullName || "—"}
           </p>
 
           {[
@@ -43,12 +48,10 @@ const FinalReviewPageComponent = () => {
             ["Received", new Date().toLocaleDateString()],
             ["Delivery", "28/12/2025"],
           ].map(([k, v]) => (
-
-            <p key={k} className="text-[14px] text-slate-500 m-0">
+            <p key={String(k)} className="text-[14px] text-slate-500 m-0">
               <span className="text-slate-400">{k}: </span>
               {v}
             </p>
-
           ))}
 
         </div>
@@ -57,16 +60,13 @@ const FinalReviewPageComponent = () => {
 
       <div className="h-[1.5px] bg-slate-100 mb-[24px]" />
 
-      {(fullData.garments?.length ?? 0) > 0 && (
+      {(fullData?.garments?.length ?? 0) > 0 && (
 
         <table className="w-full border-collapse text-[16px] mb-[24px]">
 
           <thead>
-
             <tr className="bg-slate-50 border-b border-slate-200">
-
               {["Garment Type", "Qty", "Total"].map((h, i) => (
-
                 <th
                   key={h}
                   className={`px-[16px] py-[11px] text-[13px] font-semibold uppercase tracking-[0.09em] text-slate-400 ${
@@ -75,17 +75,12 @@ const FinalReviewPageComponent = () => {
                 >
                   {h}
                 </th>
-
               ))}
-
             </tr>
-
           </thead>
 
           <tbody>
-
-            {fullData.garments?.map((g, i) => (
-
+            {fullData?.garments?.map((g, i) => (
               <tr key={i} className="border-b border-slate-100">
 
                 <td className="px-[16px] py-[13px] text-slate-800 font-medium text-[15px]">
@@ -101,9 +96,7 @@ const FinalReviewPageComponent = () => {
                 </td>
 
               </tr>
-
             ))}
-
           </tbody>
 
         </table>

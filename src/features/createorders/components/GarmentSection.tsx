@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { useFormContext, UseFieldArrayReturn } from "react-hook-form";
-import { OrderFormValues } from "../schemas/order.schema";
+import { useState, useEffect } from "react";
+import { useFormContext } from "react-hook-form";
+import { useOrderStore } from "../store/orderStore";
 
 interface Props {
-  fieldArray: UseFieldArrayReturn<OrderFormValues, "garments">;
+  fieldArray: any;
 }
 
 const garmentOptions = [
@@ -25,12 +25,7 @@ const garmentOptions = [
 
 const quantityOptions = [1,2,3,4,5,6,7,8,9];
 
-function SSelect({
-  value,
-  onChange,
-  children,
-  className = "",
-}: React.SelectHTMLAttributes<HTMLSelectElement>) {
+function SSelect({ value, onChange, children, className="" }: any) {
 
   const [focused,setFocused] = useState(false);
 
@@ -55,16 +50,23 @@ const GarmentSection = ({ fieldArray }: Props) => {
 
   const { append, remove, update, fields } = fieldArray;
 
-  const { watch } = useFormContext<OrderFormValues>();
-  const garments = watch("garments") ?? [];
+  const { watch } = useFormContext();
+  const garments = watch("garments");
+
+  const setOrder = useOrderStore((s)=>s.setOrder);
+
+  useEffect(()=>{
+    setOrder({ garments });
+  },[garments,setOrder]);
 
   const [selectedType,setSelectedType] = useState("");
   const [selectedQty,setSelectedQty] = useState(1);
   const [editingIndex,setEditingIndex] = useState<number|null>(null);
+  const [loading,setLoading] = useState(false);
 
   const isValid = !!selectedType;
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
 
     if(!selectedType) return;
 
@@ -91,7 +93,7 @@ const GarmentSection = ({ fieldArray }: Props) => {
 
   const handleEdit = (index:number)=>{
 
-    const item = garments[index];
+    const item = fields[index];
 
     setSelectedType(item.garmentType);
     setSelectedQty(item.quantity);
@@ -99,6 +101,7 @@ const GarmentSection = ({ fieldArray }: Props) => {
   };
 
   return (
+
     <div className="space-y-6 py-2">
 
       <div className="flex flex-wrap gap-4 items-end">
@@ -111,7 +114,7 @@ const GarmentSection = ({ fieldArray }: Props) => {
 
           <SSelect
             value={selectedType}
-            onChange={(e)=>setSelectedType(e.target.value)}
+            onChange={(e:any)=>setSelectedType(e.target.value)}
           >
             <option value="">Select type…</option>
 
@@ -133,7 +136,7 @@ const GarmentSection = ({ fieldArray }: Props) => {
 
           <SSelect
             value={selectedQty}
-            onChange={(e)=>setSelectedQty(Number(e.target.value))}
+            onChange={(e:any)=>setSelectedQty(Number(e.target.value))}
           >
             {quantityOptions.map(q=>(
               <option key={q} value={q}>
@@ -147,17 +150,105 @@ const GarmentSection = ({ fieldArray }: Props) => {
         <button
           type="button"
           onClick={handleAdd}
-          disabled={!isValid}
+          disabled={loading || !isValid}
           className={`h-[44px] px-[22px] rounded-[10px] text-[13.5px] font-semibold ${
             isValid
               ? "bg-gradient-to-br from-yellow-300 to-yellow-500 text-[#1c0a00]"
               : "bg-slate-100 text-slate-400 cursor-not-allowed"
           }`}
         >
-          {editingIndex!==null ? "Update":"Add"}
+          {loading ? "Loading…" : editingIndex!==null ? "Update":"Add"}
         </button>
 
       </div>
+
+      {fields.length>0 && (
+
+        <div className="overflow-x-auto">
+
+          <table className="w-full text-[13.5px] border-collapse">
+
+            <thead>
+
+              <tr className="bg-slate-50 border-b border-slate-200">
+
+                {["Garment Name","Qty","Stitching Cost","Total","",""].map((h,i)=>(
+
+                  <th
+                    key={i}
+                    className={`px-[14px] py-[10px] text-[11px] font-semibold uppercase tracking-[0.08em] text-slate-400 whitespace-nowrap ${
+                      i===0?"text-left":"text-center"
+                    }`}
+                  >
+                    {h}
+                  </th>
+
+                ))}
+
+              </tr>
+
+            </thead>
+
+            <tbody>
+
+              {fields.map((item:any,index:number)=>(
+
+                <tr
+                  key={item.id}
+                  className="border-b border-slate-100 hover:bg-gray-50 transition"
+                >
+
+                  <td className="px-[14px] py-[12px] text-slate-800 font-medium">
+                    {item.garmentType}
+                  </td>
+
+                  <td className="px-[14px] py-[12px] text-center text-slate-600">
+                    {item.quantity}
+                  </td>
+
+                  <td className="px-[14px] py-[12px] text-center text-slate-600">
+                    ₹{item.stitchingCost.toLocaleString("en-IN")}
+                  </td>
+
+                  <td className="px-[14px] py-[12px] text-center font-semibold text-slate-800">
+                    ₹{item.total.toLocaleString("en-IN")}
+                  </td>
+
+                  <td className="px-[14px] py-[12px] text-center">
+
+                    <button
+                      type="button"
+                      onClick={()=>handleEdit(index)}
+                      className="w-[30px] h-[30px] rounded-[8px] border-[1.5px] border-slate-200 bg-slate-50"
+                    >
+                      ✎
+                    </button>
+
+                  </td>
+
+                  <td className="px-[14px] py-[12px] text-center">
+
+                    <button
+                      type="button"
+                      onClick={()=>remove(index)}
+                      className="w-[30px] h-[30px] rounded-[8px] border-[1.5px] border-red-200 bg-red-50"
+                    >
+                      🗑
+                    </button>
+
+                  </td>
+
+                </tr>
+
+              ))}
+
+            </tbody>
+
+          </table>
+
+        </div>
+
+      )}
 
       {fields.length===0 && (
 
@@ -172,6 +263,7 @@ const GarmentSection = ({ fieldArray }: Props) => {
       )}
 
     </div>
+
   );
 };
 

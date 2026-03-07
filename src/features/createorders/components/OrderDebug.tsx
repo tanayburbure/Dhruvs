@@ -1,7 +1,7 @@
 import { useOrderStore } from "../store/orderStore";
 
 const OrderDebug = () => {
-  const order = useOrderStore((state) => state.order);
+  const draft = useOrderStore((state) => state.draft);
 
   // #region agent log
   fetch("http://127.0.0.1:7242/ingest/cc33e5ef-cd30-407f-b513-b864041834da", {
@@ -13,7 +13,7 @@ const OrderDebug = () => {
       location: "OrderDebug.tsx:7",
       message: "OrderDebug render",
       data: {
-        keys: Object.keys(order || {}),
+        keys: Object.keys(draft || {}),
       },
       timestamp: Date.now(),
     }),
@@ -22,7 +22,7 @@ const OrderDebug = () => {
 
   return (
     <pre className="bottom-4 right-4 bg-black text-green-400 text-xs p-4 rounded max-w-[400px] max-h-[400px] overflow-auto shadow-lg z-50">
-      {JSON.stringify(order, null, 2)}
+      {JSON.stringify(draft, null, 2)}
     </pre>
   );
 };

@@ -1,11 +1,10 @@
 import { useFormContext } from "react-hook-form";
 import FinalReviewPageComponent from "@/features/createorders/pages/FinalReviewPageComponent";
-import { useOrderStore } from "../../store/orderStore";  
+import { useOrderStore } from "../../store/orderStore";
 
 const FinalOrderSummary = () => {
 
   const { getValues } = useFormContext();
-
   const order = useOrderStore((s) => s.order);
 
   const handlePrint = () => {
