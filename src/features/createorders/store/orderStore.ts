@@ -1,43 +1,61 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { OrderFormValues } from "../schemas/order.schema";
-import type { ImageItem } from "../components/media/ImageUploadModal";
-import type { DeepPartial } from "react-hook-form";
+import type { OrderFormValues } from "../schemas/order.schema";
 
-type OrderDraft = DeepPartial<OrderFormValues> & {
-  images?: ImageItem[];
-  garmentImages?: Record<number, ImageItem[]>;
-  finalReview?: DeepPartial<OrderFormValues>;
-  amountPaid?: number;
-  paymentMode?: "cash" | "upi" | null;
-  balance?: number;
-  [key: string]: unknown;
-};
+export type OrderDraft = Partial<OrderFormValues>;
 
-type OrderStore = {
+type OrderState = {
+  draft: OrderDraft;
+  setDraft: (draft: OrderDraft) => void;
+  resetDraft: () => void;
+
+  // ─── legacy aliases — keep until all child components are migrated ───
+  /** @deprecated use setDraft instead */
   order: OrderDraft;
-
-  setOrder: (data: OrderDraft) => void;
+  /** @deprecated use setDraft instead */
+  setOrder: (order: OrderDraft) => void;
+  /** @deprecated use setDraft instead */
+  updateOrder: (update: OrderDraft) => void;
+  /** @deprecated use resetDraft instead */
   resetOrder: () => void;
 };
 
-export const useOrderStore = create<OrderStore>()(
+/**
+ * Zustand store for persisting the order draft across page reloads.
+ *
+ * Rules:
+ * - This store is WRITE-ONLY from the form perspective.
+ *   RHF (react-hook-form) is the single source of truth while the form is mounted.
+ * - We only READ from this store once: when initialising RHF defaultValues.
+ * - After that, the form syncs TO the store (debounced), never the other way.
+ *
+ * Legacy note:
+ * - `setOrder` / `updateOrder` / `resetOrder` are aliases for backward compat.
+ *   Migrate child components to use `setDraft` / `resetDraft` over time.
+ */
+export const useOrderStore = create<OrderState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
+      draft: {},
+
+      setDraft: (draft) => set({ draft, order: draft }),
+
+      resetDraft: () => set({ draft: {}, order: {} }),
+
+      // ─── legacy aliases ───────────────────────────────────────────────
       order: {},
 
-      setOrder: (data) =>
-        set((state) => ({
-          order: {
-            ...state.order,
-            ...data,
-          },
-        })),
+      setOrder: (order) => set({ draft: order, order }),
 
-      resetOrder: () => set({ order: {} }),
+      updateOrder: (update) => {
+        const next = { ...get().draft, ...update };
+        set({ draft: next, order: next });
+      },
+
+      resetOrder: () => set({ draft: {}, order: {} }),
     }),
     {
       name: "order-draft",
-    }
-  )
+    },
+  ),
 );
